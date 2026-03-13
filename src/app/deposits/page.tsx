@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import EmptyState from "@/components/deposits/EmptyState";
 import DepositsTable from "@/components/deposits/DepositsTable";
+import EmptyState from "@/components/deposits/EmptyState";
+import { DEPOSITS_DATA } from "@/lib/constants";
 
 export default function DepositsPage() {
   const [tab, setTab] = useState<"active" | "closed">("active");
-  const [showMockData, setShowMockData] = useState(false);
+
+  const activeDeposits = DEPOSITS_DATA.filter((d) => d.status !== "closed");
+  const closedDeposits = DEPOSITS_DATA.filter((d) => d.status === "closed");
 
   return (
     <motion.div
@@ -24,54 +27,44 @@ export default function DepositsPage() {
       </p>
 
       {/* Tabs */}
-      <div className="flex items-center gap-4 mt-6 mb-6">
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => setTab("active")}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-              tab === "active"
-                ? "bg-bg-surface-raised text-text-primary"
-                : "text-text-secondary hover:text-text-primary"
-            }`}
-          >
-            ACTIVE
-          </button>
-          <button
-            onClick={() => setTab("closed")}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-              tab === "closed"
-                ? "bg-bg-surface-raised text-text-primary"
-                : "text-text-secondary hover:text-text-primary"
-            }`}
-          >
-            CLOSED
-          </button>
-        </div>
-
-        {/* Toggle mock data */}
-        {tab === "active" && (
-          <button
-            onClick={() => setShowMockData(!showMockData)}
-            className="ml-auto text-xs text-text-tertiary border border-border-subtle rounded-lg px-3 py-1.5 hover:border-border-hover hover:text-text-secondary transition-all duration-200"
-          >
-            {showMockData ? "Show empty state" : "Preview logged-in view"}
-          </button>
-        )}
+      <div className="flex items-center gap-1 mt-6 mb-6">
+        <button
+          onClick={() => setTab("active")}
+          className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+            tab === "active"
+              ? "bg-bg-surface-raised text-text-primary"
+              : "text-text-secondary hover:text-text-primary"
+          }`}
+        >
+          ACTIVE
+        </button>
+        <button
+          onClick={() => setTab("closed")}
+          className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+            tab === "closed"
+              ? "bg-bg-surface-raised text-text-primary"
+              : "text-text-secondary hover:text-text-primary"
+          }`}
+        >
+          CLOSED
+        </button>
       </div>
 
       {/* Content */}
       <motion.div
-        key={`${tab}-${showMockData}`}
+        key={tab}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
       >
         {tab === "active" ? (
-          showMockData ? (
-            <DepositsTable />
+          activeDeposits.length > 0 ? (
+            <DepositsTable deposits={activeDeposits} />
           ) : (
             <EmptyState />
           )
+        ) : closedDeposits.length > 0 ? (
+          <DepositsTable deposits={closedDeposits} />
         ) : (
           <EmptyState message="Your closed deposits will appear here." />
         )}

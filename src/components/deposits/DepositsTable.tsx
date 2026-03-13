@@ -1,10 +1,14 @@
 "use client";
 
-import { DEPOSITS_DATA } from "@/lib/constants";
+import { DepositRow } from "@/lib/constants";
 import PlatformBadge from "@/components/shared/PlatformBadge";
 import { formatNumber } from "@/lib/utils";
 
-export default function DepositsTable() {
+interface DepositsTableProps {
+  deposits: DepositRow[];
+}
+
+export default function DepositsTable({ deposits }: DepositsTableProps) {
   return (
     <div className="bg-bg-surface rounded-2xl overflow-hidden">
       <div className="overflow-x-auto">
@@ -20,7 +24,7 @@ export default function DepositsTable() {
             </tr>
           </thead>
           <tbody>
-            {DEPOSITS_DATA.map((deposit) => (
+            {deposits.map((deposit) => (
               <tr
                 key={deposit.id}
                 className="border-b border-border-subtle hover:bg-bg-surface-hover transition-colors"
@@ -41,10 +45,10 @@ export default function DepositsTable() {
                     {deposit.status.charAt(0).toUpperCase() + deposit.status.slice(1)}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-text-primary text-sm font-medium">
+                <td className="px-6 py-4 text-text-primary text-sm font-medium tabular-nums">
                   {formatNumber(deposit.amount)} USDC
                 </td>
-                <td className="px-6 py-4 text-text-primary text-sm">
+                <td className="px-6 py-4 text-text-primary text-sm tabular-nums">
                   {formatNumber(deposit.remaining)} USDC
                 </td>
                 <td className="px-6 py-4">
@@ -54,7 +58,7 @@ export default function DepositsTable() {
                     ))}
                   </div>
                 </td>
-                <td className="px-6 py-4 text-accent-green text-sm font-medium">
+                <td className="px-6 py-4 text-accent-green text-sm font-medium tabular-nums">
                   +{deposit.spread}%
                 </td>
                 <td className="px-6 py-4 text-right">

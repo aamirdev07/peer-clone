@@ -18,13 +18,13 @@ export default function MoreMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="bg-bg-surface border-border-subtle rounded-xl p-1 min-w-[180px]"
+        className="bg-white border-none rounded-xl p-2 min-w-[220px] shadow-xl"
       >
-        <DropdownMenuItem asChild className="rounded-lg px-3 py-2.5 text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover cursor-pointer">
-          <Link href="/tos">Terms of Service</Link>
+        <DropdownMenuItem asChild className="rounded-lg px-4 py-3 text-black hover:bg-gray-100 cursor-pointer font-medium text-sm tracking-wide focus:bg-gray-100 focus:text-black">
+          <Link href="/tos">TERMS OF SERVICE</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild className="rounded-lg px-3 py-2.5 text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover cursor-pointer">
-          <Link href="/privacy">Privacy Policy</Link>
+        <DropdownMenuItem asChild className="rounded-lg px-4 py-3 text-black hover:bg-gray-100 cursor-pointer font-medium text-sm tracking-wide focus:bg-gray-100 focus:text-black">
+          <Link href="/privacy">PRIVACY POLICY</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

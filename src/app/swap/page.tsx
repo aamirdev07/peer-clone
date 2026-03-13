@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Clock } from "lucide-react";
+import { Clock, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 import BuyTab from "@/components/swap/BuyTab";
 import SellTab from "@/components/swap/SellTab";
@@ -39,12 +39,22 @@ export default function SwapPage() {
                 </button>
               ))}
             </div>
-            <button
-              className="text-text-secondary hover:text-text-primary transition-colors p-2 rounded-lg hover:bg-bg-surface-raised"
-              title="Order history"
-            >
-              <Clock className="w-5 h-5" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                className="text-text-secondary hover:text-text-primary transition-colors p-2 rounded-lg hover:bg-bg-surface-raised"
+                title="Order history"
+              >
+                <Clock className="w-5 h-5" />
+              </button>
+              {activeTab === "SELL" && (
+                <button
+                  className="text-text-secondary hover:text-text-primary transition-colors p-2 rounded-lg hover:bg-bg-surface-raised"
+                  title="Settings"
+                >
+                  <Settings className="w-5 h-5" />
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Tab content */}

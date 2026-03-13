@@ -143,9 +143,14 @@ export interface DepositRow {
 }
 
 export const DEPOSITS_DATA: DepositRow[] = [
-  { id: "dep-001", status: "active", amount: 500, remaining: 320, platforms: ["venmo", "revolut"], spread: 1.2 },
-  { id: "dep-002", status: "active", amount: 200, remaining: 200, platforms: ["cashapp"], spread: 0.8 },
-  { id: "dep-003", status: "paused", amount: 100, remaining: 100, platforms: ["paypal"], spread: 1.5 },
+  { id: "dep-001", status: "active", amount: 2500, remaining: 1820, platforms: ["venmo", "revolut"], spread: 1.2 },
+  { id: "dep-002", status: "active", amount: 1000, remaining: 1000, platforms: ["cashapp"], spread: 0.8 },
+  { id: "dep-003", status: "active", amount: 750, remaining: 430, platforms: ["paypal", "wise"], spread: 1.0 },
+  { id: "dep-004", status: "paused", amount: 500, remaining: 500, platforms: ["zelle"], spread: 1.5 },
+  { id: "dep-005", status: "active", amount: 3000, remaining: 2100, platforms: ["venmo"], spread: 0.5 },
+  { id: "dep-006", status: "active", amount: 1200, remaining: 680, platforms: ["revolut", "monzo"], spread: 1.8 },
+  { id: "dep-007", status: "paused", amount: 400, remaining: 400, platforms: ["mercadopago"], spread: 2.0 },
+  { id: "dep-008", status: "active", amount: 800, remaining: 150, platforms: ["wise", "paypal"], spread: 0.6 },
 ];
 
 export const LEADERBOARD_STATS = {
