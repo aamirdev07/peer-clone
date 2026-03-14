@@ -1,18 +1,25 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import { PAYMENT_METHODS } from "@/lib/constants";
 
 interface PaymentMethodSelectorProps {
   value: string;
   onChange: (id: string) => void;
+  filterByCurrency?: string;
 }
 
-export default function PaymentMethodSelector({ value, onChange }: PaymentMethodSelectorProps) {
+export default function PaymentMethodSelector({ value, onChange, filterByCurrency }: PaymentMethodSelectorProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const selected = PAYMENT_METHODS.find((p) => p.id === value) || PAYMENT_METHODS[0];
+
+  const methods = useMemo(() => {
+    if (!filterByCurrency) return PAYMENT_METHODS;
+    return PAYMENT_METHODS.filter((p) => p.currencies.includes(filterByCurrency));
+  }, [filterByCurrency]);
+
+  const selected = methods.find((p) => p.id === value) || methods[0] || PAYMENT_METHODS[0];
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -39,7 +46,7 @@ export default function PaymentMethodSelector({ value, onChange }: PaymentMethod
       </button>
       {open && (
         <div className="absolute right-0 top-full mt-2 bg-bg-surface border border-border-subtle rounded-xl py-1 z-50 min-w-[200px] shadow-xl shadow-black/40">
-          {PAYMENT_METHODS.map((p) => (
+          {methods.map((p) => (
             <button
               key={p.id}
               onClick={() => {

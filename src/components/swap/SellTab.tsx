@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
-import { CURRENCIES, PAYMENT_METHODS } from "@/lib/constants";
+import { CURRENCIES, PAYMENT_METHODS, TOKENS } from "@/lib/constants";
+import { formatNumber } from "@/lib/utils";
 
 export default function SellTab() {
   const [amount, setAmount] = useState("");
@@ -13,7 +14,32 @@ export default function SellTab() {
   const [platformOpen, setPlatformOpen] = useState(false);
 
   const selectedCurrency = CURRENCIES.find((c) => c.code === currency) || CURRENCIES[0];
-  const selectedPlatform = PAYMENT_METHODS.find((p) => p.id === paymentMethod) || PAYMENT_METHODS[0];
+  const usdcToken = TOKENS[0]; // USDC
+
+  // Filter platforms by selected currency
+  const availablePlatforms = useMemo(
+    () => PAYMENT_METHODS.filter((p) => p.currencies.includes(currency)),
+    [currency]
+  );
+
+  const selectedPlatform = availablePlatforms.find((p) => p.id === paymentMethod) || availablePlatforms[0] || PAYMENT_METHODS[0];
+
+  // Calculate receive amount: USDC → USD → fiat, with 0.2% spread
+  const receiveAmount = useMemo(() => {
+    if (!amount || parseFloat(amount) === 0) return "";
+    const usdValue = parseFloat(amount) * usdcToken.usdPrice;
+    const fiatAmount = usdValue * selectedCurrency.usdRate * 0.998;
+    return formatNumber(fiatAmount, 2);
+  }, [amount, selectedCurrency, usdcToken]);
+
+  const handleCurrencyChange = (code: string) => {
+    setCurrency(code);
+    setCurrencyOpen(false);
+    const methods = PAYMENT_METHODS.filter((p) => p.currencies.includes(code));
+    if (!methods.find((p) => p.id === paymentMethod) && methods.length > 0) {
+      setPaymentMethod(methods[0].id);
+    }
+  };
 
   return (
     <div className="space-y-3">
@@ -52,12 +78,12 @@ export default function SellTab() {
             >
               {selectedPlatform.letter}
             </div>
-            <span className="text-sm font-medium text-text-primary">{selectedPlatform.name}</span>
-            <ChevronDown className="w-4 h-4 text-text-secondary ml-auto" />
+            <span className="text-sm font-medium text-text-primary truncate">{selectedPlatform.name}</span>
+            <ChevronDown className="w-4 h-4 text-text-secondary ml-auto shrink-0" />
           </button>
           {platformOpen && (
             <div className="absolute left-0 top-full mt-1 bg-bg-surface border border-border-subtle rounded-xl py-1 z-50 w-full shadow-xl shadow-black/40">
-              {PAYMENT_METHODS.map((p) => (
+              {availablePlatforms.map((p) => (
                 <button
                   key={p.id}
                   onClick={() => { setPaymentMethod(p.id); setPlatformOpen(false); }}
@@ -96,7 +122,7 @@ export default function SellTab() {
               {CURRENCIES.map((c) => (
                 <button
                   key={c.code}
-                  onClick={() => { setCurrency(c.code); setCurrencyOpen(false); }}
+                  onClick={() => handleCurrencyChange(c.code)}
                   className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-bg-surface-hover transition-colors ${
                     c.code === currency ? "text-accent-purple" : "text-text-primary"
                   }`}
@@ -110,7 +136,7 @@ export default function SellTab() {
         </div>
       </div>
 
-      {/* Venmo Username */}
+      {/* Platform Username */}
       <div className="bg-bg-input rounded-xl p-4">
         <label className="text-text-secondary text-sm block mb-2">
           {selectedPlatform.name} Username
@@ -124,9 +150,36 @@ export default function SellTab() {
         />
       </div>
 
-      {/* Enter an Amount CTA */}
-      <button className="w-full rounded-xl py-3.5 text-base font-semibold bg-bg-surface-raised text-text-secondary cursor-not-allowed transition-all duration-200 uppercase tracking-wide">
-        Enter an amount
+      {/* You receive */}
+      {amount && receiveAmount && (
+        <div className="bg-bg-input rounded-xl p-4">
+          <label className="text-text-secondary text-sm block mb-2">You receive</label>
+          <div className="flex items-center justify-between">
+            <span className="text-2xl font-semibold text-text-primary tabular-nums">
+              {selectedCurrency.symbol}{receiveAmount}
+            </span>
+            <span className="text-sm text-text-secondary">{currency}</span>
+          </div>
+          <p className="text-text-tertiary text-xs mt-2">
+            1 USDC ≈ {selectedCurrency.symbol}{formatNumber(selectedCurrency.usdRate, 2)} {currency}
+          </p>
+        </div>
+      )}
+
+      {/* CTA */}
+      <button
+        className={`w-full rounded-xl py-3.5 text-base font-semibold transition-all duration-200 uppercase tracking-wide ${
+          amount && parseFloat(amount) > 0
+            ? "bg-accent-purple hover:bg-accent-purple-hover text-white cursor-pointer"
+            : "bg-bg-surface-raised text-text-secondary cursor-not-allowed"
+        }`}
+        onClick={() => {
+          if (amount && parseFloat(amount) > 0) {
+            alert("Login functionality is mocked. Connect your wallet to get started!");
+          }
+        }}
+      >
+        {amount && parseFloat(amount) > 0 ? "LOG IN" : "Enter an amount"}
       </button>
     </div>
   );

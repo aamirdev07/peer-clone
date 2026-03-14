@@ -1,14 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import TokenSelector from "./TokenSelector";
-import LoginButton from "@/components/shared/LoginButton";
+import { TOKENS } from "@/lib/constants";
+import { formatNumber } from "@/lib/utils";
 
 export default function SendTab() {
   const [amount, setAmount] = useState("");
   const [sendToken, setSendToken] = useState("USDC");
   const [receiveToken, setReceiveToken] = useState("USDC");
   const [recipient, setRecipient] = useState("");
+
+  const sendTokenData = TOKENS.find((t) => t.symbol === sendToken) || TOKENS[0];
+  const receiveTokenData = TOKENS.find((t) => t.symbol === receiveToken) || TOKENS[0];
+
+  // Convert between tokens via USD price
+  const receiveAmount = useMemo(() => {
+    if (!amount || parseFloat(amount) === 0) return "";
+    const usdValue = parseFloat(amount) * sendTokenData.usdPrice;
+    const received = usdValue / receiveTokenData.usdPrice;
+    if (receiveTokenData.usdPrice >= 1000) return formatNumber(received, 6);
+    if (receiveTokenData.usdPrice >= 10) return formatNumber(received, 4);
+    return formatNumber(received, 2);
+  }, [amount, sendTokenData, receiveTokenData]);
 
   return (
     <div className="space-y-3">
@@ -51,15 +65,25 @@ export default function SendTab() {
       <div className="bg-bg-input rounded-xl p-4">
         <label className="text-text-secondary text-sm block mb-2">You receive</label>
         <div className="flex items-center justify-between gap-3">
-          <span className="text-3xl font-semibold text-text-tertiary tabular-nums">
-            {amount || "0"}
+          <span className={`text-3xl font-semibold tabular-nums ${receiveAmount ? "text-text-primary" : "text-text-tertiary"}`}>
+            {receiveAmount || "0"}
           </span>
           <TokenSelector value={receiveToken} onChange={setReceiveToken} />
         </div>
+        {amount && receiveAmount && sendToken !== receiveToken && (
+          <p className="text-text-tertiary text-xs mt-2">
+            1 {sendTokenData.symbol} ≈ {formatNumber(sendTokenData.usdPrice / receiveTokenData.usdPrice, receiveTokenData.usdPrice >= 1000 ? 6 : 4)} {receiveTokenData.symbol}
+          </p>
+        )}
       </div>
 
       {/* Login CTA */}
-      <LoginButton variant="cta" />
+      <button
+        onClick={() => alert("Login functionality is mocked. Connect your wallet to get started!")}
+        className="w-full rounded-xl py-3.5 text-base font-semibold bg-accent-purple hover:bg-accent-purple-hover text-white transition-all duration-200"
+      >
+        LOG IN
+      </button>
     </div>
   );
 }

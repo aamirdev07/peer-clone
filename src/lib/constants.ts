@@ -1,21 +1,21 @@
 export const TOKENS = [
-  { symbol: "USDC", name: "USD Coin", color: "#2775CA" },
-  { symbol: "ETH", name: "Ethereum", color: "#627EEA" },
-  { symbol: "SOL", name: "Solana", color: "#14F195" },
-  { symbol: "USDT", name: "Tether", color: "#26A17B" },
-  { symbol: "WBTC", name: "Wrapped Bitcoin", color: "#F7931A" },
+  { symbol: "USDC", name: "USD Coin", color: "#2775CA", usdPrice: 1.0 },
+  { symbol: "ETH", name: "Ethereum", color: "#627EEA", usdPrice: 3245.67 },
+  { symbol: "SOL", name: "Solana", color: "#14F195", usdPrice: 142.38 },
+  { symbol: "USDT", name: "Tether", color: "#26A17B", usdPrice: 1.0 },
+  { symbol: "WBTC", name: "Wrapped Bitcoin", color: "#F7931A", usdPrice: 87432.15 },
 ];
 
 export const CURRENCIES = [
-  { code: "USD", flag: "🇺🇸", name: "US Dollar", symbol: "$" },
-  { code: "EUR", flag: "🇪🇺", name: "Euro", symbol: "€" },
-  { code: "GBP", flag: "🇬🇧", name: "British Pound", symbol: "£" },
-  { code: "ARS", flag: "🇦🇷", name: "Argentine Peso", symbol: "$" },
-  { code: "BRL", flag: "🇧🇷", name: "Brazilian Real", symbol: "R$" },
-  { code: "INR", flag: "🇮🇳", name: "Indian Rupee", symbol: "₹" },
-  { code: "MXN", flag: "🇲🇽", name: "Mexican Peso", symbol: "$" },
-  { code: "NGN", flag: "🇳🇬", name: "Nigerian Naira", symbol: "₦" },
-  { code: "TRY", flag: "🇹🇷", name: "Turkish Lira", symbol: "₺" },
+  { code: "USD", flag: "🇺🇸", name: "US Dollar", symbol: "$", usdRate: 1.0 },
+  { code: "EUR", flag: "🇪🇺", name: "Euro", symbol: "€", usdRate: 0.92 },
+  { code: "GBP", flag: "🇬🇧", name: "British Pound", symbol: "£", usdRate: 0.79 },
+  { code: "ARS", flag: "🇦🇷", name: "Argentine Peso", symbol: "$", usdRate: 875.0 },
+  { code: "BRL", flag: "🇧🇷", name: "Brazilian Real", symbol: "R$", usdRate: 4.97 },
+  { code: "INR", flag: "🇮🇳", name: "Indian Rupee", symbol: "₹", usdRate: 83.12 },
+  { code: "MXN", flag: "🇲🇽", name: "Mexican Peso", symbol: "$", usdRate: 17.15 },
+  { code: "NGN", flag: "🇳🇬", name: "Nigerian Naira", symbol: "₦", usdRate: 1550.0 },
+  { code: "TRY", flag: "🇹🇷", name: "Turkish Lira", symbol: "₺", usdRate: 32.15 },
 ];
 
 export const PAYMENT_METHODS = [
@@ -46,21 +46,26 @@ export interface LiquidityRow {
   total: number;
   apr: number | null;
   providers: string[];
+  currency: string;
 }
 
 export const LIQUIDITY_DATA: LiquidityRow[] = [
-  { price: 0.985, spread: -1.5, amount: 350, total: 350, apr: null, providers: ["paypal"] },
-  { price: 0.992, spread: -0.8, amount: 1200, total: 1550, apr: 12.4, providers: ["venmo"] },
-  { price: 0.995, spread: -0.5, amount: 800, total: 2350, apr: 8.7, providers: ["revolut"] },
-  { price: 0.998, spread: -0.2, amount: 2500, total: 4850, apr: 15.2, providers: ["venmo", "revolut"] },
-  { price: 1.0, spread: 0, amount: 1800, total: 6650, apr: 6.3, providers: ["zelle"] },
-  { price: 1.002, spread: 0.2, amount: 3200, total: 9850, apr: 18.1, providers: ["venmo", "cashapp"] },
-  { price: 1.005, spread: 0.5, amount: 950, total: 10800, apr: 4.2, providers: ["wise"] },
-  { price: 1.008, spread: 0.8, amount: 1500, total: 12300, apr: 9.8, providers: ["paypal", "mercadopago"] },
-  { price: 1.01, spread: 1.0, amount: 600, total: 12900, apr: 3.1, providers: ["revolut"] },
-  { price: 1.015, spread: 1.5, amount: 400, total: 13300, apr: 2.4, providers: ["venmo"] },
-  { price: 1.018, spread: 1.8, amount: 750, total: 14050, apr: 5.6, providers: ["wise", "revolut"] },
-  { price: 1.022, spread: 2.2, amount: 280, total: 14330, apr: 1.9, providers: ["monzo"] },
+  { price: 0.985, spread: -1.5, amount: 350, total: 350, apr: null, providers: ["paypal"], currency: "USD" },
+  { price: 0.992, spread: -0.8, amount: 1200, total: 1550, apr: 12.4, providers: ["venmo"], currency: "USD" },
+  { price: 0.995, spread: -0.5, amount: 800, total: 2350, apr: 8.7, providers: ["revolut"], currency: "USD" },
+  { price: 0.998, spread: -0.2, amount: 2500, total: 4850, apr: 15.2, providers: ["venmo", "revolut"], currency: "USD" },
+  { price: 1.0, spread: 0, amount: 1800, total: 6650, apr: 6.3, providers: ["zelle"], currency: "USD" },
+  { price: 1.002, spread: 0.2, amount: 3200, total: 9850, apr: 18.1, providers: ["venmo", "cashapp"], currency: "USD" },
+  { price: 1.005, spread: 0.5, amount: 950, total: 10800, apr: 4.2, providers: ["wise"], currency: "USD" },
+  { price: 1.008, spread: 0.8, amount: 1500, total: 12300, apr: 9.8, providers: ["paypal", "mercadopago"], currency: "USD" },
+  { price: 1.01, spread: 1.0, amount: 600, total: 12900, apr: 3.1, providers: ["revolut"], currency: "USD" },
+  { price: 1.015, spread: 1.5, amount: 400, total: 13300, apr: 2.4, providers: ["venmo"], currency: "USD" },
+  { price: 1.018, spread: 1.8, amount: 750, total: 14050, apr: 5.6, providers: ["wise", "revolut"], currency: "USD" },
+  { price: 1.022, spread: 2.2, amount: 280, total: 14330, apr: 1.9, providers: ["monzo"], currency: "GBP" },
+  { price: 0.91, spread: -0.5, amount: 600, total: 600, apr: 7.2, providers: ["revolut"], currency: "EUR" },
+  { price: 0.925, spread: 0.3, amount: 1100, total: 1700, apr: 10.5, providers: ["wise", "paypal"], currency: "EUR" },
+  { price: 0.78, spread: -0.8, amount: 450, total: 450, apr: 5.1, providers: ["monzo"], currency: "GBP" },
+  { price: 0.795, spread: 0.5, amount: 900, total: 1350, apr: 8.9, providers: ["revolut", "wise"], currency: "GBP" },
 ];
 
 export interface LeaderboardRow {
@@ -151,6 +156,11 @@ export const DEPOSITS_DATA: DepositRow[] = [
   { id: "dep-006", status: "active", amount: 1200, remaining: 680, platforms: ["revolut", "monzo"], spread: 1.8 },
   { id: "dep-007", status: "paused", amount: 400, remaining: 400, platforms: ["mercadopago"], spread: 2.0 },
   { id: "dep-008", status: "active", amount: 800, remaining: 150, platforms: ["wise", "paypal"], spread: 0.6 },
+  { id: "dep-009", status: "closed", amount: 1500, remaining: 0, platforms: ["venmo"], spread: 1.0 },
+  { id: "dep-010", status: "closed", amount: 2000, remaining: 0, platforms: ["revolut", "paypal"], spread: 0.8 },
+  { id: "dep-011", status: "closed", amount: 350, remaining: 0, platforms: ["cashapp"], spread: 1.5 },
+  { id: "dep-012", status: "closed", amount: 4200, remaining: 0, platforms: ["wise", "zelle"], spread: 0.3 },
+  { id: "dep-013", status: "closed", amount: 900, remaining: 0, platforms: ["monzo"], spread: 2.2 },
 ];
 
 export const LEADERBOARD_STATS = {
