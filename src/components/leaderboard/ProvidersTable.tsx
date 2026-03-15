@@ -2,11 +2,37 @@
 
 import { useState } from "react";
 import { ArrowDown, ArrowUp, Info, Search } from "lucide-react";
-import { LEADERBOARD_DATA, LeaderboardRow } from "@/lib/constants";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { LEADERBOARD_DATA } from "@/lib/constants";
 import { formatUSD } from "@/lib/utils";
 
 type SortKey = "filledVolume" | "realizedProfit" | "profitPct" | "grossDeposited";
 type SortDir = "asc" | "desc";
+
+const COLUMN_TOOLTIPS: Record<SortKey, string> = {
+  filledVolume: "Total volume of orders filled by this maker across all deposits.",
+  realizedProfit: "Total profit earned from spread on completed orders.",
+  profitPct: "Realized profit as a percentage of filled volume.",
+  grossDeposited: "Total USDC deposited across all active and closed deposits.",
+};
+
+function InfoTip({ text }: { text: string }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
+        <span className="inline-flex cursor-help">
+          <Info className="w-3 h-3" />
+        </span>
+      </TooltipTrigger>
+      <TooltipContent
+        side="top"
+        className="bg-bg-surface-raised text-text-primary text-xs border border-border-subtle rounded-lg px-3 py-2 max-w-[220px] shadow-xl"
+      >
+        {text}
+      </TooltipContent>
+    </Tooltip>
+  );
+}
 
 export default function ProvidersTable() {
   const [sortKey, setSortKey] = useState<SortKey>("realizedProfit");
@@ -77,7 +103,7 @@ export default function ProvidersTable() {
                   onClick={() => handleSort("filledVolume")}
                 >
                   <span className="inline-flex items-center gap-1">
-                    Filled volume <Info className="w-3 h-3" />
+                    Filled volume <InfoTip text={COLUMN_TOOLTIPS.filledVolume} />
                     <SortIcon col="filledVolume" />
                   </span>
                 </th>
@@ -86,7 +112,7 @@ export default function ProvidersTable() {
                   onClick={() => handleSort("realizedProfit")}
                 >
                   <span className="inline-flex items-center gap-1">
-                    Realized profit <Info className="w-3 h-3" />
+                    Realized profit <InfoTip text={COLUMN_TOOLTIPS.realizedProfit} />
                     <SortIcon col="realizedProfit" />
                   </span>
                 </th>
@@ -95,7 +121,7 @@ export default function ProvidersTable() {
                   onClick={() => handleSort("profitPct")}
                 >
                   <span className="inline-flex items-center gap-1">
-                    Profit % <Info className="w-3 h-3" />
+                    Profit % <InfoTip text={COLUMN_TOOLTIPS.profitPct} />
                     <SortIcon col="profitPct" />
                   </span>
                 </th>
@@ -104,7 +130,7 @@ export default function ProvidersTable() {
                   onClick={() => handleSort("grossDeposited")}
                 >
                   <span className="inline-flex items-center gap-1">
-                    Gross deposited <Info className="w-3 h-3" />
+                    Gross deposited <InfoTip text={COLUMN_TOOLTIPS.grossDeposited} />
                     <SortIcon col="grossDeposited" />
                   </span>
                 </th>

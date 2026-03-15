@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, Filter, RefreshCw, MoreHorizontal } from "lucide-react";
+import { ChevronDown, Filter, RefreshCw, MoreHorizontal, LayoutList, Table2 } from "lucide-react";
+import { toast } from "sonner";
 import { CURRENCIES, PAYMENT_METHODS } from "@/lib/constants";
 
 interface OrderBookFiltersProps {
@@ -9,6 +10,15 @@ interface OrderBookFiltersProps {
   onCurrencyChange: (code: string) => void;
   platform: string;
   onPlatformChange: (id: string) => void;
+  viewMode: "orderbook" | "table";
+  onViewModeChange: (mode: "orderbook" | "table") => void;
+  showLowLiquidity: boolean;
+  onShowLowLiquidityChange: (v: boolean) => void;
+  showExtremeSpreads: boolean;
+  onShowExtremeSpreadsChange: (v: boolean) => void;
+  onRefresh: () => void;
+  isRefreshing: boolean;
+  filtersActive: boolean;
 }
 
 export default function OrderBookFilters({
@@ -16,11 +26,22 @@ export default function OrderBookFilters({
   onCurrencyChange,
   platform,
   onPlatformChange,
+  viewMode,
+  onViewModeChange,
+  showLowLiquidity,
+  onShowLowLiquidityChange,
+  showExtremeSpreads,
+  onShowExtremeSpreadsChange,
+  onRefresh,
+  isRefreshing,
+  filtersActive,
 }: OrderBookFiltersProps) {
   const [currencyOpen, setCurrencyOpen] = useState(false);
   const [platformOpen, setPlatformOpen] = useState(false);
+  const [displayOpen, setDisplayOpen] = useState(false);
   const currencyRef = useRef<HTMLDivElement>(null);
   const platformRef = useRef<HTMLDivElement>(null);
+  const displayRef = useRef<HTMLDivElement>(null);
 
   const selectedCurrency = CURRENCIES.find((c) => c.code === currency) || CURRENCIES[0];
 
@@ -28,6 +49,7 @@ export default function OrderBookFilters({
     const handler = (e: MouseEvent) => {
       if (currencyRef.current && !currencyRef.current.contains(e.target as Node)) setCurrencyOpen(false);
       if (platformRef.current && !platformRef.current.contains(e.target as Node)) setPlatformOpen(false);
+      if (displayRef.current && !displayRef.current.contains(e.target as Node)) setDisplayOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -123,24 +145,113 @@ export default function OrderBookFilters({
         )}
       </div>
 
-      {/* Display button */}
-      <button className="flex items-center gap-1.5 bg-bg-surface-raised hover:bg-bg-surface-hover rounded-full px-3 py-1.5 text-text-secondary text-sm transition-all duration-200">
-        <MoreHorizontal className="w-4 h-4" />
-        <span className="font-medium">DISPLAY</span>
-      </button>
+      {/* Display button + dropdown */}
+      <div className="relative" ref={displayRef}>
+        <button
+          onClick={() => setDisplayOpen(!displayOpen)}
+          className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition-all duration-200 ${
+            displayOpen
+              ? "bg-bg-surface-hover text-text-primary"
+              : "bg-bg-surface-raised hover:bg-bg-surface-hover text-text-secondary"
+          }`}
+        >
+          <MoreHorizontal className="w-4 h-4" />
+          <span className="font-medium">DISPLAY</span>
+        </button>
+        {displayOpen && (
+          <div className="absolute left-0 top-full mt-2 bg-bg-surface border border-border-subtle rounded-xl p-4 z-50 min-w-[260px] shadow-xl shadow-black/40 space-y-4">
+            {/* View toggle */}
+            <div>
+              <span className="text-text-tertiary text-[10px] uppercase tracking-wider font-medium">View</span>
+              <div className="flex items-center gap-2 mt-2">
+                <button
+                  onClick={() => onViewModeChange("orderbook")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                    viewMode === "orderbook"
+                      ? "bg-bg-surface-raised text-text-primary border border-border-hover"
+                      : "text-text-secondary hover:text-text-primary hover:bg-bg-surface-raised border border-transparent"
+                  }`}
+                >
+                  <LayoutList className="w-4 h-4" />
+                  ORDER BOOK
+                </button>
+                <button
+                  onClick={() => onViewModeChange("table")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                    viewMode === "table"
+                      ? "bg-bg-surface-raised text-text-primary border border-border-hover"
+                      : "text-text-secondary hover:text-text-primary hover:bg-bg-surface-raised border border-transparent"
+                  }`}
+                >
+                  <Table2 className="w-4 h-4" />
+                  TABLE
+                </button>
+              </div>
+            </div>
 
-      {/* Filter icon */}
-      <button className="w-8 h-8 rounded-full bg-bg-surface-raised hover:bg-bg-surface-hover flex items-center justify-center text-text-secondary transition-all duration-200">
+            {/* Filters */}
+            <div>
+              <div className="flex items-center gap-1.5 mb-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-text-secondary" />
+                <span className="text-text-tertiary text-[10px] uppercase tracking-wider font-medium">Filters</span>
+              </div>
+              <div className="space-y-2">
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={showLowLiquidity}
+                    onChange={(e) => onShowLowLiquidityChange(e.target.checked)}
+                    className="w-4 h-4 rounded border-border-subtle bg-bg-input accent-accent-purple"
+                  />
+                  <span className="text-text-secondary text-sm group-hover:text-text-primary transition-colors">
+                    Show Low Liquidity Deposits
+                  </span>
+                </label>
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={showExtremeSpreads}
+                    onChange={(e) => onShowExtremeSpreadsChange(e.target.checked)}
+                    className="w-4 h-4 rounded border-border-subtle bg-bg-input accent-accent-purple"
+                  />
+                  <span className="text-text-secondary text-sm group-hover:text-text-primary transition-colors">
+                    Show Extreme Spreads (+100%)
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Filter icon - toggles display panel (same as DISPLAY) */}
+      <button
+        onClick={() => setDisplayOpen(!displayOpen)}
+        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 relative ${
+          filtersActive
+            ? "bg-accent-purple-muted text-accent-purple"
+            : "bg-bg-surface-raised hover:bg-bg-surface-hover text-text-secondary"
+        }`}
+      >
         <Filter className="w-4 h-4" />
+        {filtersActive && (
+          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-accent-purple border-2 border-bg-base" />
+        )}
       </button>
 
       {/* Refresh icon */}
-      <button className="w-8 h-8 rounded-full bg-bg-surface-raised hover:bg-bg-surface-hover flex items-center justify-center text-text-secondary transition-all duration-200">
-        <RefreshCw className="w-4 h-4" />
+      <button
+        onClick={onRefresh}
+        className="w-8 h-8 rounded-full bg-bg-surface-raised hover:bg-bg-surface-hover flex items-center justify-center text-text-secondary transition-all duration-200"
+      >
+        <RefreshCw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
       </button>
 
       {/* Add Liquidity */}
-      <button className="ml-auto bg-accent-purple hover:bg-accent-purple-hover text-white rounded-lg px-5 py-2 font-semibold text-sm transition-all duration-200">
+      <button
+        onClick={() => toast.info("Connect your wallet to deposit USDC and earn yield!", { description: "Add Liquidity is mocked in this demo." })}
+        className="ml-auto bg-accent-purple hover:bg-accent-purple-hover text-white rounded-lg px-5 py-2 font-semibold text-sm transition-all duration-200"
+      >
         ADD LIQUIDITY
       </button>
     </div>

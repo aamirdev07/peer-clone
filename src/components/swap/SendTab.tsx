@@ -1,9 +1,19 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { toast } from "sonner";
 import TokenSelector from "./TokenSelector";
 import { TOKENS } from "@/lib/constants";
 import { formatNumber } from "@/lib/utils";
+
+// Mock wallet balances
+const MOCK_BALANCES: Record<string, number> = {
+  USDC: 1250.0,
+  ETH: 0.45,
+  SOL: 12.8,
+  USDT: 500.0,
+  WBTC: 0.0021,
+};
 
 export default function SendTab() {
   const [amount, setAmount] = useState("");
@@ -14,6 +24,8 @@ export default function SendTab() {
   const sendTokenData = TOKENS.find((t) => t.symbol === sendToken) || TOKENS[0];
   const receiveTokenData = TOKENS.find((t) => t.symbol === receiveToken) || TOKENS[0];
 
+  const maxBalance = MOCK_BALANCES[sendToken] || 0;
+
   // Convert between tokens via USD price
   const receiveAmount = useMemo(() => {
     if (!amount || parseFloat(amount) === 0) return "";
@@ -23,6 +35,11 @@ export default function SendTab() {
     if (receiveTokenData.usdPrice >= 10) return formatNumber(received, 4);
     return formatNumber(received, 2);
   }, [amount, sendTokenData, receiveTokenData]);
+
+  const handleMax = () => {
+    const decimals = sendTokenData.usdPrice >= 1000 ? 6 : sendTokenData.usdPrice >= 10 ? 4 : 2;
+    setAmount(maxBalance.toFixed(decimals));
+  };
 
   return (
     <div className="space-y-3">
@@ -42,8 +59,14 @@ export default function SendTab() {
           />
           <TokenSelector value={sendToken} onChange={setSendToken} />
         </div>
-        <div className="flex justify-end mt-1">
-          <button className="text-sm text-text-secondary hover:text-text-primary transition-colors font-medium">
+        <div className="flex items-center justify-between mt-1">
+          <span className="text-text-tertiary text-xs tabular-nums">
+            Balance: {formatNumber(maxBalance, maxBalance < 1 ? 6 : 2)} {sendToken}
+          </span>
+          <button
+            onClick={handleMax}
+            className="text-sm text-accent-purple hover:text-accent-purple-hover transition-colors font-medium"
+          >
             Max
           </button>
         </div>
@@ -79,7 +102,7 @@ export default function SendTab() {
 
       {/* Login CTA */}
       <button
-        onClick={() => alert("Login functionality is mocked. Connect your wallet to get started!")}
+        onClick={() => toast.info("Connect your wallet to get started!", { description: "Login functionality is mocked in this demo." })}
         className="w-full rounded-xl py-3.5 text-base font-semibold bg-accent-purple hover:bg-accent-purple-hover text-white transition-all duration-200"
       >
         LOG IN

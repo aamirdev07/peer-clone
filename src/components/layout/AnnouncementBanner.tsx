@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
+import { toast } from "sonner";
 
 export default function AnnouncementBanner() {
   const [visible, setVisible] = useState(true);
@@ -10,7 +11,14 @@ export default function AnnouncementBanner() {
 
   return (
     <div className="bg-accent-amber text-black text-center py-2 text-sm font-medium relative">
-      <span>ZKP2P is now Peer. Read more →</span>
+      <span>ZKP2P is now Peer.{" "}
+        <button
+          onClick={() => toast.info("ZKP2P has rebranded to Peer!", { description: "Same protocol, new name. All features and liquidity remain unchanged." })}
+          className="underline hover:no-underline font-semibold"
+        >
+          Read more →
+        </button>
+      </span>
       <button
         onClick={() => setVisible(false)}
         className="absolute right-4 top-1/2 -translate-y-1/2 hover:opacity-70 transition-opacity"

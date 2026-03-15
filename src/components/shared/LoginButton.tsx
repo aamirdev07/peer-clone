@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "sonner";
+
 interface LoginButtonProps {
   variant?: "nav" | "cta" | "outline";
   className?: string;
@@ -7,7 +9,9 @@ interface LoginButtonProps {
 
 export default function LoginButton({ variant = "nav", className = "" }: LoginButtonProps) {
   const handleClick = () => {
-    alert("Login functionality is mocked. Connect your wallet to get started!");
+    toast.info("Connect your wallet to get started!", {
+      description: "Login functionality is mocked in this demo.",
+    });
   };
 
   const baseClasses = "font-semibold transition-all duration-200 cursor-pointer";
