@@ -38,6 +38,7 @@ export default function SellTab({ advancedMode = false }: SellTabProps) {
   const [maxOrder, setMaxOrder] = useState("0");
   const [telegramUsername, setTelegramUsername] = useState("");
   const [retainOnEmpty, setRetainOnEmpty] = useState(true);
+  const [simpleSpread, setSimpleSpread] = useState(0); // -50 to 50, maps to -5.0% to +5.0%
 
   const selectedCurrency = CURRENCIES.find((c) => c.code === currency) || CURRENCIES[0];
   const usdcToken = TOKENS[0];
@@ -49,12 +50,15 @@ export default function SellTab({ advancedMode = false }: SellTabProps) {
 
   const selectedPlatform = availablePaymentMethods.find((p) => p.id === paymentMethod) || availablePaymentMethods[0] || PAYMENT_METHODS[0];
 
+  const simpleSpreadPct = simpleSpread / 10; // percentage
+  const simpleRateValue = selectedCurrency.usdRate * (1 + simpleSpreadPct / 100);
+
   const receiveAmount = useMemo(() => {
     if (!amount || parseFloat(amount) === 0) return "";
     const usdValue = parseFloat(amount) * usdcToken.usdPrice;
-    const fiatAmount = usdValue * selectedCurrency.usdRate * 0.998;
+    const fiatAmount = usdValue * simpleRateValue;
     return formatNumber(fiatAmount, 2);
-  }, [amount, selectedCurrency, usdcToken]);
+  }, [amount, usdcToken, simpleRateValue]);
 
   const spreadPct = ((spreadValue - 50) / 10);
   const spreadPctDisplay = `${spreadPct >= 0 ? "+" : ""}${spreadPct.toFixed(1)}%`;
@@ -451,18 +455,38 @@ export default function SellTab({ advancedMode = false }: SellTabProps) {
         />
       </div>
 
-      {/* You receive */}
-      <div className="bg-bg-input rounded-xl p-4">
-        <label className="text-text-secondary text-sm block mb-2">You receive</label>
+      {/* You'll receive + rate indicator */}
+      <div className="space-y-2 px-1">
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-semibold text-text-primary tabular-nums">
-            {receiveAmount ? `${selectedCurrency.symbol}${receiveAmount}` : `${selectedCurrency.symbol}0.00`}
+          <span className="text-text-secondary text-sm">You&apos;ll receive</span>
+          <span className="text-text-primary text-sm font-semibold tabular-nums">
+            ~{selectedCurrency.symbol}{receiveAmount || "0.00"} {currency}
           </span>
-          <span className="text-sm text-text-secondary">{currency}</span>
         </div>
-        <p className="text-text-tertiary text-xs mt-2">
-          1 USDC ≈ {selectedCurrency.symbol}{formatNumber(selectedCurrency.usdRate, 2)} {currency}
-        </p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <span className="text-lg leading-none">{selectedCurrency.flag}</span>
+            <span className="text-text-primary text-sm">1 USDC = {formatNumber(simpleRateValue, simpleRateValue >= 100 ? 2 : 4)} {currency}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-text-tertiary text-[10px] uppercase tracking-wider font-medium">Spread</span>
+            <button
+              onClick={() => setSimpleSpread(Math.max(-50, simpleSpread - 1))}
+              className="w-6 h-6 rounded-md bg-bg-surface-raised text-text-secondary hover:text-text-primary flex items-center justify-center transition-colors text-sm"
+            >
+              -
+            </button>
+            <span className="text-text-primary text-[11px] font-semibold px-2 py-1 bg-bg-surface-raised rounded-md tabular-nums min-w-[70px] text-center">
+              {simpleSpread === 0 ? "Market rate" : `${simpleSpread > 0 ? "+" : ""}${(simpleSpread / 10).toFixed(1)}%`}
+            </span>
+            <button
+              onClick={() => setSimpleSpread(Math.min(50, simpleSpread + 1))}
+              className="w-6 h-6 rounded-md bg-bg-surface-raised text-text-secondary hover:text-text-primary flex items-center justify-center transition-colors text-sm"
+            >
+              +
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* CTA */}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
@@ -24,10 +25,27 @@ const MOCK_HISTORY = [
 ];
 
 export default function SwapPage() {
+  return (
+    <Suspense>
+      <SwapPageInner />
+    </Suspense>
+  );
+}
+
+function SwapPageInner() {
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<Tab>("BUY");
   const [showHistory, setShowHistory] = useState(false);
   const [advancedSell, setAdvancedSell] = useState(false);
   const [historyFilter, setHistoryFilter] = useState<HistoryFilter>("ALL");
+
+  // Handle query params from profile sheet links
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "send") setActiveTab("SEND");
+    else if (tab === "sell") setActiveTab("SELL");
+    else if (tab === "history") setShowHistory(true);
+  }, [searchParams]);
 
   const isWide = activeTab === "SELL" && advancedSell;
 
