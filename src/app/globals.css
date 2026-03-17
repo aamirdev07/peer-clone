@@ -4,46 +4,46 @@
 
 @layer base {
   :root {
-    --bg-base: #08080D;
-    --bg-surface: #0F0F17;
-    --bg-surface-raised: #161622;
-    --bg-surface-hover: #1C1C30;
-    --bg-input: #111120;
+    --bg-base: #060B11;
+    --bg-surface: #0B1219;
+    --bg-surface-raised: #111B25;
+    --bg-surface-hover: #162231;
+    --bg-input: #0D1520;
 
-    --accent-purple: #8B5CF6;
-    --accent-purple-hover: #7C3AED;
-    --accent-purple-muted: rgba(139, 92, 246, 0.10);
+    --accent-purple: #22D3EE;
+    --accent-purple-hover: #06B6D4;
+    --accent-purple-muted: rgba(34, 211, 238, 0.10);
     --accent-green: #06D6A0;
     --accent-green-hover: #05B888;
     --accent-blue: #3B82F6;
     --accent-amber: #F59E0B;
     --accent-red: #EF4444;
 
-    --text-primary: #EDEDF4;
-    --text-secondary: #7C7C99;
-    --text-tertiary: #4A4A64;
+    --text-primary: #E8EDF2;
+    --text-secondary: #6B8299;
+    --text-tertiary: #3D5468;
 
-    --border-subtle: #1E1E36;
-    --border-hover: #2E2E4A;
+    --border-subtle: #152030;
+    --border-hover: #1E3044;
 
-    --background: #08080D;
-    --foreground: #EDEDF4;
-    --card: #0F0F17;
-    --card-foreground: #EDEDF4;
-    --popover: #0F0F17;
-    --popover-foreground: #EDEDF4;
-    --primary: #8B5CF6;
-    --primary-foreground: #FFFFFF;
-    --secondary: #161622;
-    --secondary-foreground: #EDEDF4;
-    --muted: #161622;
-    --muted-foreground: #7C7C99;
-    --accent: #161622;
-    --accent-foreground: #EDEDF4;
+    --background: #060B11;
+    --foreground: #E8EDF2;
+    --card: #0B1219;
+    --card-foreground: #E8EDF2;
+    --popover: #0B1219;
+    --popover-foreground: #E8EDF2;
+    --primary: #22D3EE;
+    --primary-foreground: #060B11;
+    --secondary: #111B25;
+    --secondary-foreground: #E8EDF2;
+    --muted: #111B25;
+    --muted-foreground: #6B8299;
+    --accent: #111B25;
+    --accent-foreground: #E8EDF2;
     --destructive: #EF4444;
-    --border: #1E1E36;
-    --input: #111120;
-    --ring: #8B5CF6;
+    --border: #152030;
+    --input: #0D1520;
+    --ring: #22D3EE;
     --radius: 0.75rem;
   }
 

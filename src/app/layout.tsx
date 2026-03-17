@@ -12,8 +12,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Peer | Buy crypto with Venmo, Zelle and Bank Transfer",
-  description: "Trustless P2P fiat-to-crypto marketplace powered by zero-knowledge proofs",
+  title: "Kosmyk | Buy crypto with Venmo, Zelle and Bank Transfer",
+  description:
+    "Trustless P2P fiat-to-crypto marketplace powered by zero-knowledge proofs",
+  icons: {
+    icon: "/kosmyk-logo.png",
+    apple: "/kosmyk-logo.png",
+  },
 };
 
 export default function RootLayout({

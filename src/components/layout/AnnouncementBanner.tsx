@@ -11,9 +11,15 @@ export default function AnnouncementBanner() {
 
   return (
     <div className="bg-accent-amber text-black text-center py-2 text-sm font-medium relative">
-      <span>ZKP2P is now Peer.{" "}
+      <span>
+        ZKP2P is now Kosmyk.{" "}
         <button
-          onClick={() => toast.info("ZKP2P has rebranded to Peer!", { description: "Same protocol, new name. All features and liquidity remain unchanged." })}
+          onClick={() =>
+            toast.info("ZKP2P has rebranded to Kosmyk!", {
+              description:
+                "Same protocol, new name. All features and liquidity remain unchanged.",
+            })
+          }
           className="underline hover:no-underline font-semibold"
         >
           Read more →

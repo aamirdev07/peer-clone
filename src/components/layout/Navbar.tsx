@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
@@ -29,13 +30,15 @@ export default function Navbar() {
       <nav className="sticky top-0 z-50 bg-bg-base">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           {/* Left: Logo */}
-          <Link href="/swap" className="flex items-center gap-2.5 shrink-0">
-            <span className="font-satoshi font-black text-2xl text-text-primary tracking-tight">
-              peer
-            </span>
-            <span className="text-[10px] uppercase tracking-wider text-text-secondary border border-border-subtle rounded-full px-2 py-0.5 font-medium">
-              BETA
-            </span>
+          <Link href="/swap" className="flex items-center shrink-0">
+            <Image
+              src="/kosmyk-logo.png"
+              alt="Kosmyk"
+              width={1920}
+              height={689}
+              className="h-12 w-auto"
+              priority
+            />
           </Link>
 
           {/* Center: Nav pills (desktop) */}
@@ -63,14 +66,20 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             {/* USDC balance badge */}
             <div className="hidden md:flex items-center gap-1.5 text-sm">
-              <div className="w-5 h-5 rounded-full bg-[#2775CA] flex items-center justify-center text-white text-[8px] font-bold shrink-0">U</div>
-              <span className="text-text-primary font-medium tabular-nums">{MOCK_USER.balance}</span>
+              <div className="w-5 h-5 rounded-full bg-[#2775CA] flex items-center justify-center text-white text-[8px] font-bold shrink-0">
+                U
+              </div>
+              <span className="text-text-primary font-medium tabular-nums">
+                {MOCK_USER.balance}
+              </span>
             </div>
 
             {/* Privy/points icon placeholder */}
             <div className="hidden md:flex items-center">
               <div className="w-7 h-7 rounded-full bg-accent-purple/20 flex items-center justify-center">
-                <span className="text-accent-purple text-[10px] font-bold">P</span>
+                <span className="text-accent-purple text-[10px] font-bold">
+                  P
+                </span>
               </div>
             </div>
 
@@ -92,7 +101,11 @@ export default function Navbar() {
               className="md:hidden text-text-primary p-2"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </button>
           </div>
         </div>
@@ -122,13 +135,18 @@ export default function Navbar() {
             </div>
             {/* Mobile user button */}
             <button
-              onClick={() => { setProfileOpen(true); setMobileOpen(false); }}
+              onClick={() => {
+                setProfileOpen(true);
+                setMobileOpen(false);
+              }}
               className="w-full flex items-center gap-2.5 bg-bg-surface-raised rounded-xl px-4 py-3 mt-2"
             >
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent-purple to-accent-blue flex items-center justify-center shrink-0">
                 <span className="text-white text-xs font-bold">U</span>
               </div>
-              <span className="text-text-primary text-sm font-medium truncate">{MOCK_USER.email}</span>
+              <span className="text-text-primary text-sm font-medium truncate">
+                {MOCK_USER.email}
+              </span>
             </button>
           </div>
         )}
