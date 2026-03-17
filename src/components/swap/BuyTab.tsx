@@ -243,12 +243,20 @@ export default function BuyTab() {
         </div>
       )}
 
-      {/* Login CTA */}
+      {/* CTA */}
       <button
-        onClick={() => toast.info("Connect your wallet to get started!", { description: "Login functionality is mocked in this demo." })}
-        className="w-full rounded-xl py-3.5 text-base font-semibold bg-accent-purple hover:bg-accent-purple-hover text-white transition-all duration-200"
+        onClick={() => {
+          if (sendAmount && parseFloat(sendAmount) > 0) {
+            toast.success("Order submitted!", { description: `Buying ${receiveAmount} ${token} for ${selectedCurrency.symbol}${sendAmount} via ${PAYMENT_METHODS.find(p => p.id === paymentMethod)?.name}.` });
+          }
+        }}
+        className={`w-full rounded-xl py-3.5 text-base font-semibold transition-all duration-200 uppercase tracking-wide ${
+          sendAmount && parseFloat(sendAmount) > 0
+            ? "bg-accent-purple hover:bg-accent-purple-hover text-white cursor-pointer"
+            : "bg-bg-surface-raised text-text-secondary cursor-not-allowed"
+        }`}
       >
-        LOG IN
+        {sendAmount && parseFloat(sendAmount) > 0 ? "BUY " + token : `INPUT ${currency} AMOUNT`}
       </button>
     </div>
   );

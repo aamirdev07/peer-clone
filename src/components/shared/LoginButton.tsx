@@ -9,9 +9,7 @@ interface LoginButtonProps {
 
 export default function LoginButton({ variant = "nav", className = "" }: LoginButtonProps) {
   const handleClick = () => {
-    toast.info("Connect your wallet to get started!", {
-      description: "Login functionality is mocked in this demo.",
-    });
+    toast.info("Connect your wallet to get started!");
   };
 
   const baseClasses = "font-semibold transition-all duration-200 cursor-pointer";

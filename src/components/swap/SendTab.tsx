@@ -100,12 +100,20 @@ export default function SendTab() {
         )}
       </div>
 
-      {/* Login CTA */}
+      {/* CTA */}
       <button
-        onClick={() => toast.info("Connect your wallet to get started!", { description: "Login functionality is mocked in this demo." })}
-        className="w-full rounded-xl py-3.5 text-base font-semibold bg-accent-purple hover:bg-accent-purple-hover text-white transition-all duration-200"
+        onClick={() => {
+          if (amount && parseFloat(amount) > 0 && recipient) {
+            toast.success("Transfer submitted!", { description: `Sending ${amount} ${sendToken} to ${recipient.slice(0, 10)}...` });
+          }
+        }}
+        className={`w-full rounded-xl py-3.5 text-base font-semibold transition-all duration-200 uppercase tracking-wide ${
+          amount && parseFloat(amount) > 0
+            ? "bg-accent-purple hover:bg-accent-purple-hover text-white cursor-pointer"
+            : "bg-bg-surface-raised text-text-secondary cursor-not-allowed"
+        }`}
       >
-        LOG IN
+        {amount && parseFloat(amount) > 0 ? "SEND " + sendToken : "INPUT SEND AMOUNT"}
       </button>
     </div>
   );

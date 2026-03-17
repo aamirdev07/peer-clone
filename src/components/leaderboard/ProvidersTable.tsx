@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { ArrowDown, ArrowUp, Info, Search } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { LEADERBOARD_DATA } from "@/lib/constants";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { LEADERBOARD_DATA, LeaderboardRow } from "@/lib/constants";
 import { formatUSD } from "@/lib/utils";
+import MakerDetailPanel from "./MakerDetailPanel";
 
 type SortKey = "filledVolume" | "realizedProfit" | "profitPct" | "grossDeposited";
 type SortDir = "asc" | "desc";
@@ -38,6 +40,7 @@ export default function ProvidersTable() {
   const [sortKey, setSortKey] = useState<SortKey>("realizedProfit");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [search, setSearch] = useState("");
+  const [selectedMaker, setSelectedMaker] = useState<LeaderboardRow | null>(null);
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -140,7 +143,10 @@ export default function ProvidersTable() {
               {sorted.map((row, i) => (
                 <tr
                   key={row.address}
-                  className="border-b border-border-subtle hover:bg-bg-surface-hover transition-colors"
+                  onClick={() => setSelectedMaker(row)}
+                  className={`border-b border-border-subtle hover:bg-bg-surface-hover transition-colors cursor-pointer ${
+                    selectedMaker?.address === row.address ? "bg-bg-surface-hover" : ""
+                  }`}
                 >
                   <td className="px-5 py-4 text-text-secondary text-sm">{i + 1}</td>
                   <td className="px-5 py-4">
@@ -177,6 +183,16 @@ export default function ProvidersTable() {
           </table>
         </div>
       </div>
+
+      {/* Sheet side panel */}
+      <Sheet open={!!selectedMaker} onOpenChange={(open) => { if (!open) setSelectedMaker(null); }}>
+        <SheetContent
+          side="right"
+          className="bg-bg-surface border-l border-border-subtle p-6 overflow-y-auto sm:max-w-[420px]"
+        >
+          {selectedMaker && <MakerDetailPanel maker={selectedMaker} />}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

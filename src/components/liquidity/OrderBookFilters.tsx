@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ChevronDown, Filter, RefreshCw, MoreHorizontal, LayoutList, Table2 } from "lucide-react";
-import { toast } from "sonner";
 import { CURRENCIES, PAYMENT_METHODS } from "@/lib/constants";
 
 interface OrderBookFiltersProps {
@@ -36,6 +36,7 @@ export default function OrderBookFilters({
   isRefreshing,
   filtersActive,
 }: OrderBookFiltersProps) {
+  const router = useRouter();
   const [currencyOpen, setCurrencyOpen] = useState(false);
   const [platformOpen, setPlatformOpen] = useState(false);
   const [displayOpen, setDisplayOpen] = useState(false);
@@ -249,7 +250,7 @@ export default function OrderBookFilters({
 
       {/* Add Liquidity */}
       <button
-        onClick={() => toast.info("Connect your wallet to deposit USDC and earn yield!", { description: "Add Liquidity is mocked in this demo." })}
+        onClick={() => router.push("/deposits")}
         className="ml-auto bg-accent-purple hover:bg-accent-purple-hover text-white rounded-lg px-5 py-2 font-semibold text-sm transition-all duration-200"
       >
         ADD LIQUIDITY

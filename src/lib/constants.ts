@@ -68,6 +68,14 @@ export const LIQUIDITY_DATA: LiquidityRow[] = [
   { price: 0.795, spread: 0.5, amount: 900, total: 1350, apr: 8.9, providers: ["revolut", "wise"], currency: "GBP" },
 ];
 
+export interface MakerPlatformStat {
+  platformId: string;
+  fulfillments: number;
+  manual: number;
+  volume: number;
+  profit: number;
+}
+
 export interface LeaderboardRow {
   address: string;
   activeDeposits: number;
@@ -76,21 +84,61 @@ export interface LeaderboardRow {
   realizedProfit: number;
   profitPct: number;
   grossDeposited: number;
+  platforms: MakerPlatformStat[];
 }
 
 export const LEADERBOARD_DATA: LeaderboardRow[] = [
-  { address: "0x76bb...ae30", activeDeposits: 3, totalDeposits: 90, filledVolume: 1072110.19, realizedProfit: 14508.05, profitPct: 1.35, grossDeposited: 1659740.98 },
-  { address: "0xdd8e...fe93", activeDeposits: 1, totalDeposits: 73, filledVolume: 566920.12, realizedProfit: 13386.53, profitPct: 2.36, grossDeposited: 987367.3 },
-  { address: "0x1a4c...be8d", activeDeposits: 5, totalDeposits: 176, filledVolume: 719768.82, realizedProfit: 8535.71, profitPct: 1.19, grossDeposited: 842721.7 },
-  { address: "0xfb74...d6ef", activeDeposits: 2, totalDeposits: 45, filledVolume: 973191.37, realizedProfit: 7096.44, profitPct: 0.73, grossDeposited: 1367876.07 },
-  { address: "0x3a91...c2f8", activeDeposits: 4, totalDeposits: 112, filledVolume: 445623.89, realizedProfit: 6234.12, profitPct: 1.4, grossDeposited: 623451.23 },
-  { address: "0x8d2e...7a1b", activeDeposits: 1, totalDeposits: 34, filledVolume: 312445.67, realizedProfit: 4891.33, profitPct: 1.57, grossDeposited: 478234.56 },
-  { address: "0xc5f1...3e9d", activeDeposits: 3, totalDeposits: 67, filledVolume: 287334.21, realizedProfit: 3456.78, profitPct: 1.2, grossDeposited: 389112.45 },
-  { address: "0x2b8a...f4c6", activeDeposits: 2, totalDeposits: 28, filledVolume: 198776.54, realizedProfit: 2987.65, profitPct: 1.5, grossDeposited: 267891.23 },
-  { address: "0xe7d3...1b5a", activeDeposits: 1, totalDeposits: 19, filledVolume: 156234.89, realizedProfit: 2145.34, profitPct: 1.37, grossDeposited: 201567.89 },
-  { address: "0x9f4c...8d2e", activeDeposits: 1, totalDeposits: 11, filledVolume: 123456.78, realizedProfit: 1234.56, profitPct: 1.0, grossDeposited: 156789.01 },
-  { address: "0x4e7b...2c1a", activeDeposits: 2, totalDeposits: 43, filledVolume: 98234.56, realizedProfit: 987.23, profitPct: 1.01, grossDeposited: 134567.89 },
-  { address: "0xb3d9...5f8e", activeDeposits: 1, totalDeposits: 8, filledVolume: 67891.23, realizedProfit: 543.21, profitPct: 0.8, grossDeposited: 89012.34 },
+  { address: "0x76bb...ae30", activeDeposits: 3, totalDeposits: 90, filledVolume: 1072110.19, realizedProfit: 14508.05, profitPct: 1.35, grossDeposited: 1659740.98, platforms: [
+    { platformId: "revolut", fulfillments: 147, manual: 1, volume: 490977.90, profit: 5187.46 },
+    { platformId: "cashapp", fulfillments: 391, manual: 12, volume: 409625.18, profit: 6137.62 },
+    { platformId: "venmo", fulfillments: 128, manual: 2, volume: 94079.96, profit: 2108.36 },
+    { platformId: "paypal", fulfillments: 24, manual: 4, volume: 28800.42, profit: 361.09 },
+    { platformId: "wise", fulfillments: 43, manual: 0, volume: 65072.11, profit: 1148.60 },
+    { platformId: "zelle", fulfillments: 18, manual: 0, volume: 17850.20, profit: 234.81 },
+  ]},
+  { address: "0xdd8e...fe93", activeDeposits: 1, totalDeposits: 73, filledVolume: 566920.12, realizedProfit: 13386.53, profitPct: 2.36, grossDeposited: 987367.3, platforms: [
+    { platformId: "venmo", fulfillments: 210, manual: 5, volume: 312450.33, profit: 7823.12 },
+    { platformId: "revolut", fulfillments: 89, manual: 3, volume: 178234.56, profit: 3890.41 },
+    { platformId: "wise", fulfillments: 45, manual: 1, volume: 76235.23, profit: 1673.00 },
+  ]},
+  { address: "0x1a4c...be8d", activeDeposits: 5, totalDeposits: 176, filledVolume: 719768.82, realizedProfit: 8535.71, profitPct: 1.19, grossDeposited: 842721.7, platforms: [
+    { platformId: "cashapp", fulfillments: 312, manual: 8, volume: 389456.12, profit: 4234.56 },
+    { platformId: "venmo", fulfillments: 198, manual: 4, volume: 230312.70, profit: 3101.15 },
+    { platformId: "zelle", fulfillments: 67, manual: 2, volume: 100000.00, profit: 1200.00 },
+  ]},
+  { address: "0xfb74...d6ef", activeDeposits: 2, totalDeposits: 45, filledVolume: 973191.37, realizedProfit: 7096.44, profitPct: 0.73, grossDeposited: 1367876.07, platforms: [
+    { platformId: "revolut", fulfillments: 234, manual: 6, volume: 567890.12, profit: 4123.45 },
+    { platformId: "paypal", fulfillments: 156, manual: 3, volume: 405301.25, profit: 2972.99 },
+  ]},
+  { address: "0x3a91...c2f8", activeDeposits: 4, totalDeposits: 112, filledVolume: 445623.89, realizedProfit: 6234.12, profitPct: 1.4, grossDeposited: 623451.23, platforms: [
+    { platformId: "venmo", fulfillments: 178, manual: 3, volume: 267890.45, profit: 3890.12 },
+    { platformId: "wise", fulfillments: 89, manual: 1, volume: 177733.44, profit: 2344.00 },
+  ]},
+  { address: "0x8d2e...7a1b", activeDeposits: 1, totalDeposits: 34, filledVolume: 312445.67, realizedProfit: 4891.33, profitPct: 1.57, grossDeposited: 478234.56, platforms: [
+    { platformId: "zelle", fulfillments: 145, manual: 2, volume: 212445.67, profit: 3456.78 },
+    { platformId: "venmo", fulfillments: 56, manual: 0, volume: 100000.00, profit: 1434.55 },
+  ]},
+  { address: "0xc5f1...3e9d", activeDeposits: 3, totalDeposits: 67, filledVolume: 287334.21, realizedProfit: 3456.78, profitPct: 1.2, grossDeposited: 389112.45, platforms: [
+    { platformId: "revolut", fulfillments: 112, manual: 4, volume: 187334.21, profit: 2234.56 },
+    { platformId: "monzo", fulfillments: 34, manual: 1, volume: 100000.00, profit: 1222.22 },
+  ]},
+  { address: "0x2b8a...f4c6", activeDeposits: 2, totalDeposits: 28, filledVolume: 198776.54, realizedProfit: 2987.65, profitPct: 1.5, grossDeposited: 267891.23, platforms: [
+    { platformId: "paypal", fulfillments: 67, manual: 2, volume: 123456.78, profit: 1890.12 },
+    { platformId: "cashapp", fulfillments: 34, manual: 0, volume: 75319.76, profit: 1097.53 },
+  ]},
+  { address: "0xe7d3...1b5a", activeDeposits: 1, totalDeposits: 19, filledVolume: 156234.89, realizedProfit: 2145.34, profitPct: 1.37, grossDeposited: 201567.89, platforms: [
+    { platformId: "venmo", fulfillments: 89, manual: 1, volume: 156234.89, profit: 2145.34 },
+  ]},
+  { address: "0x9f4c...8d2e", activeDeposits: 1, totalDeposits: 11, filledVolume: 123456.78, realizedProfit: 1234.56, profitPct: 1.0, grossDeposited: 156789.01, platforms: [
+    { platformId: "wise", fulfillments: 56, manual: 0, volume: 78456.78, profit: 789.12 },
+    { platformId: "revolut", fulfillments: 23, manual: 1, volume: 45000.00, profit: 445.44 },
+  ]},
+  { address: "0x4e7b...2c1a", activeDeposits: 2, totalDeposits: 43, filledVolume: 98234.56, realizedProfit: 987.23, profitPct: 1.01, grossDeposited: 134567.89, platforms: [
+    { platformId: "mercadopago", fulfillments: 78, manual: 3, volume: 98234.56, profit: 987.23 },
+  ]},
+  { address: "0xb3d9...5f8e", activeDeposits: 1, totalDeposits: 8, filledVolume: 67891.23, realizedProfit: 543.21, profitPct: 0.8, grossDeposited: 89012.34, platforms: [
+    { platformId: "cashapp", fulfillments: 34, manual: 0, volume: 67891.23, profit: 543.21 },
+  ]},
 ];
 
 export const LIQUIDITY_CHART_DATA = [
