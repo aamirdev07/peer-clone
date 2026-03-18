@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { CURRENCIES } from "@/lib/constants";
+import CountryFlag from "@/components/shared/CountryFlag";
 
 interface CurrencySelectorProps {
   value: string;
@@ -28,7 +29,7 @@ export default function CurrencySelector({ value, onChange }: CurrencySelectorPr
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 bg-bg-surface-raised hover:bg-bg-surface-hover rounded-full px-3 py-1.5 transition-all duration-200"
       >
-        <span className="text-lg">{selected.flag}</span>
+        <CountryFlag currency={selected.code} size={20} />
         <span className="text-sm font-semibold text-text-primary">{selected.code}</span>
         <ChevronDown className="w-4 h-4 text-text-secondary" />
       </button>
@@ -45,7 +46,7 @@ export default function CurrencySelector({ value, onChange }: CurrencySelectorPr
                 c.code === value ? "text-accent-purple" : "text-text-primary"
               }`}
             >
-              <span className="text-lg">{c.flag}</span>
+              <CountryFlag currency={c.code} size={20} />
               <span className="font-medium">{c.code}</span>
               <span className="text-text-secondary text-xs ml-auto">{c.name}</span>
             </button>

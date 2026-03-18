@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown, Filter, RefreshCw, MoreHorizontal, LayoutList, Table2 } from "lucide-react";
 import { CURRENCIES, PAYMENT_METHODS } from "@/lib/constants";
+import CountryFlag from "@/components/shared/CountryFlag";
 
 interface OrderBookFiltersProps {
   currency: string;
@@ -72,7 +73,7 @@ export default function OrderBookFilters({
           onClick={() => setCurrencyOpen(!currencyOpen)}
           className="flex items-center gap-2 bg-bg-surface-raised hover:bg-bg-surface-hover rounded-full px-3 py-1.5 transition-all duration-200"
         >
-          <span className="text-lg leading-none">{selectedCurrency.flag}</span>
+          <CountryFlag currency={selectedCurrency.code} size={20} />
           <span className="text-sm font-medium text-text-primary">{selectedCurrency.code}</span>
           <ChevronDown className="w-3.5 h-3.5 text-text-secondary" />
         </button>
@@ -89,7 +90,7 @@ export default function OrderBookFilters({
                   c.code === currency ? "text-accent-purple" : "text-text-primary"
                 }`}
               >
-                <span className="text-lg">{c.flag}</span>
+                <CountryFlag currency={c.code} size={20} />
                 <span className="font-medium">{c.code}</span>
               </button>
             ))}

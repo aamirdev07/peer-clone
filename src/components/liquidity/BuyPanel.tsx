@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { LiquidityRow, PAYMENT_METHODS, CURRENCIES } from "@/lib/constants";
+import CountryFlag from "@/components/shared/CountryFlag";
 import { formatNumber } from "@/lib/utils";
 
 interface BuyPanelProps {
@@ -195,7 +196,7 @@ export default function BuyPanel({ row, onClose }: BuyPanelProps) {
             {formatNumber(sendAmount, 2)}
           </span>
           <div className="flex items-center gap-1.5">
-            <span className="text-lg">{currency.flag}</span>
+            <CountryFlag currency={currency.code} size={18} />
             <span className="text-text-primary text-sm font-medium">{currency.code}</span>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { ChevronDown, ChevronUp, X, AlertCircle, HelpCircle } from "lucide-react
 import { toast } from "sonner";
 import { CURRENCIES, PAYMENT_METHODS, TOKENS } from "@/lib/constants";
 import { formatNumber } from "@/lib/utils";
+import CountryFlag from "@/components/shared/CountryFlag";
 
 interface AddedPlatform {
   id: string;
@@ -184,7 +185,7 @@ export default function SellTab({ advancedMode = false }: SellTabProps) {
                       <span className="text-text-secondary text-xs uppercase tracking-wider font-medium">Configured Rates</span>
                       <div className="mt-2 flex items-center justify-between bg-bg-surface rounded-lg px-3 py-2.5 border border-border-subtle">
                         <div className="flex items-center gap-2">
-                          <span className="text-lg">{selectedCurrency.flag}</span>
+                          <CountryFlag currency={selectedCurrency.code} size={20} />
                           <span className="text-text-primary text-sm font-medium">{currency}</span>
                         </div>
                         <div className="text-right">
@@ -266,7 +267,7 @@ export default function SellTab({ advancedMode = false }: SellTabProps) {
 
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 bg-bg-surface-raised rounded-full px-3 py-1.5">
-              <span className="text-lg">{selectedCurrency.flag}</span>
+              <CountryFlag currency={selectedCurrency.code} size={20} />
               <span className="text-text-primary text-sm font-medium">{currency}</span>
             </span>
           </div>
@@ -422,7 +423,7 @@ export default function SellTab({ advancedMode = false }: SellTabProps) {
             onClick={() => { setCurrencyOpen(!currencyOpen); setPlatformOpen(false); }}
             className="w-full flex items-center gap-2.5 bg-bg-input rounded-xl px-4 py-3 transition-all hover:bg-bg-surface-hover"
           >
-            <span className="text-lg">{selectedCurrency.flag}</span>
+            <CountryFlag currency={selectedCurrency.code} size={20} />
             <span className="text-sm font-medium text-text-primary">{selectedCurrency.code}</span>
             <ChevronDown className="w-4 h-4 text-text-secondary ml-auto" />
           </button>
@@ -434,7 +435,7 @@ export default function SellTab({ advancedMode = false }: SellTabProps) {
                   onClick={() => handleCurrencyChange(c.code)}
                   className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-bg-surface-hover transition-colors ${c.code === currency ? "text-accent-purple" : "text-text-primary"}`}
                 >
-                  <span className="text-lg">{c.flag}</span>
+                  <CountryFlag currency={c.code} size={20} />
                   <span className="font-medium">{c.code}</span>
                 </button>
               ))}
@@ -465,7 +466,7 @@ export default function SellTab({ advancedMode = false }: SellTabProps) {
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <span className="text-lg leading-none">{selectedCurrency.flag}</span>
+            <CountryFlag currency={selectedCurrency.code} size={20} />
             <span className="text-text-primary text-sm">1 USDC = {formatNumber(simpleRateValue, simpleRateValue >= 100 ? 2 : 4)} {currency}</span>
           </div>
           <div className="flex items-center gap-1">
