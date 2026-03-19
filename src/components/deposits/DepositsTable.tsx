@@ -26,7 +26,7 @@ export default function DepositsTable({ deposits }: DepositsTableProps) {
             </thead>
             <tbody>
               {deposits.map((deposit) => (
-                <tr key={deposit.id} className="border-b border-border-subtle hover:bg-bg-surface-hover transition-colors">
+                <tr key={deposit.id} className="border-b border-border-subtle hover:bg-bg-surface-hover transition-colors cursor-pointer select-none">
                   <td className="px-6 py-4">
                     <StatusBadge status={deposit.status} />
                   </td>
@@ -61,7 +61,7 @@ export default function DepositsTable({ deposits }: DepositsTableProps) {
       {/* Mobile card view */}
       <div className="md:hidden space-y-3">
         {deposits.map((deposit) => (
-          <div key={deposit.id} className="bg-bg-surface rounded-xl p-4 space-y-3">
+          <div key={deposit.id} className="bg-bg-surface rounded-xl p-4 space-y-3 cursor-pointer select-none">
             <div className="flex items-center justify-between">
               <StatusBadge status={deposit.status} />
               <span className="text-accent-green text-sm font-medium tabular-nums">+{deposit.spread}%</span>
