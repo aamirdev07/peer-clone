@@ -28,12 +28,7 @@ export default function TokenSelector({ value, onChange }: TokenSelectorProps) {
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 bg-bg-surface-raised hover:bg-bg-surface-hover rounded-full px-3 py-1.5 transition-all duration-200"
       >
-        <div
-          className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0"
-          style={{ backgroundColor: selected.color }}
-        >
-          {selected.symbol.charAt(0)}
-        </div>
+        <img src={selected.logo} alt={selected.symbol} className="w-6 h-6 rounded-full object-cover shrink-0" />
         <span className="text-sm font-semibold text-text-primary">{selected.symbol}</span>
         <ChevronDown className="w-4 h-4 text-text-secondary" />
       </button>
@@ -50,12 +45,7 @@ export default function TokenSelector({ value, onChange }: TokenSelectorProps) {
                 t.symbol === value ? "text-accent-purple" : "text-text-primary"
               }`}
             >
-              <div
-                className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0"
-                style={{ backgroundColor: t.color }}
-              >
-                {t.symbol.charAt(0)}
-              </div>
+              <img src={t.logo} alt={t.symbol} className="w-6 h-6 rounded-full object-cover shrink-0" />
               <span className="font-medium">{t.symbol}</span>
               <span className="text-text-secondary text-xs ml-auto">{t.name}</span>
             </button>

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import { PAYMENT_METHODS } from "@/lib/constants";
+import Image from "next/image";
 
 interface PaymentMethodSelectorProps {
   value: string;
@@ -35,12 +36,15 @@ export default function PaymentMethodSelector({ value, onChange, filterByCurrenc
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2.5 bg-bg-surface-raised hover:bg-bg-surface-hover rounded-full px-3 py-1.5 transition-all duration-200"
       >
-        <div
-          className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0"
-          style={{ backgroundColor: selected.color }}
-        >
-          {selected.letter}
-        </div>
+        {"logo" in selected && selected.logo ? (
+          <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
+            <Image src={selected.logo} alt={selected.name} width={24} height={24} className="w-full h-full object-cover" unoptimized />
+          </div>
+        ) : (
+          <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0" style={{ backgroundColor: selected.color }}>
+            {selected.letter}
+          </div>
+        )}
         <span className="text-sm font-semibold text-text-primary">{selected.name}</span>
         <ChevronDown className="w-4 h-4 text-text-secondary" />
       </button>
@@ -57,12 +61,15 @@ export default function PaymentMethodSelector({ value, onChange, filterByCurrenc
                 p.id === value ? "text-accent-purple" : "text-text-primary"
               }`}
             >
-              <div
-                className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0"
-                style={{ backgroundColor: p.color }}
-              >
-                {p.letter}
-              </div>
+              {"logo" in p && p.logo ? (
+                <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
+                  <Image src={p.logo} alt={p.name} width={24} height={24} className="w-full h-full object-cover" unoptimized />
+                </div>
+              ) : (
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0" style={{ backgroundColor: p.color }}>
+                  {p.letter}
+                </div>
+              )}
               <span className="font-medium">{p.name}</span>
             </button>
           ))}

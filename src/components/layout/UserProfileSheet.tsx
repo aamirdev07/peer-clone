@@ -124,9 +124,7 @@ export default function UserProfileSheet({
                 Top up via bridge or direct transfer
               </p>
               <div className="flex items-center gap-3 mt-3">
-                <div className="w-8 h-8 rounded-full bg-[#2775CA] flex items-center justify-center text-white text-xs font-bold">
-                  U
-                </div>
+                <img src="https://coin-images.coingecko.com/coins/images/6319/large/usdc.png" alt="USDC" className="w-8 h-8 rounded-full object-cover" />
                 <span className="text-text-primary text-2xl font-bold tabular-nums">
                   {MOCK_USER.balance.toFixed(2)}
                 </span>

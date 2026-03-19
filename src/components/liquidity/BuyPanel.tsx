@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { LiquidityRow, PAYMENT_METHODS, CURRENCIES } from "@/lib/constants";
 import CountryFlag from "@/components/shared/CountryFlag";
 import { formatNumber } from "@/lib/utils";
+import Image from "next/image";
 
 interface BuyPanelProps {
   row: LiquidityRow;
@@ -82,12 +83,15 @@ export default function BuyPanel({ row, onClose }: BuyPanelProps) {
               onClick={() => setPlatformOpen(!platformOpen)}
               className="flex items-center gap-2 text-text-primary text-sm font-medium hover:text-accent-purple transition-colors"
             >
-              <div
-                className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-bold"
-                style={{ backgroundColor: platform?.color }}
-              >
-                {platform?.letter}
-              </div>
+              {platform && "logo" in platform && platform.logo ? (
+                <div className="w-5 h-5 rounded-full overflow-hidden shrink-0">
+                  <Image src={platform.logo} alt={platform.name} width={20} height={20} className="w-full h-full object-cover" unoptimized />
+                </div>
+              ) : (
+                <div className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-bold" style={{ backgroundColor: platform?.color }}>
+                  {platform?.letter}
+                </div>
+              )}
               {platform?.name}
               {platformOpen ? (
                 <ChevronUp className="w-3.5 h-3.5 text-text-secondary" />
@@ -109,12 +113,15 @@ export default function BuyPanel({ row, onClose }: BuyPanelProps) {
                       p.id === selectedProvider ? "bg-bg-surface-hover" : ""
                     }`}
                   >
-                    <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
-                      style={{ backgroundColor: p.platform?.color }}
-                    >
-                      {p.platform?.letter}
-                    </div>
+                    {p.platform && "logo" in p.platform && p.platform.logo ? (
+                      <div className="w-8 h-8 rounded-full overflow-hidden shrink-0">
+                        <Image src={p.platform.logo} alt={p.platform.name} width={32} height={32} className="w-full h-full object-cover" unoptimized />
+                      </div>
+                    ) : (
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0" style={{ backgroundColor: p.platform?.color }}>
+                        {p.platform?.letter}
+                      </div>
+                    )}
                     <div className="text-left">
                       <span className="text-text-primary font-medium block">{p.platform?.name}</span>
                       <span className="text-text-tertiary text-xs">{formatNumber(p.available, 0)} USDC available</span>
@@ -173,7 +180,7 @@ export default function BuyPanel({ row, onClose }: BuyPanelProps) {
             {formatNumber(receiveAmount, 2)}
           </span>
           <div className="flex items-center gap-1.5">
-            <div className="w-5 h-5 rounded-full bg-[#2775CA] flex items-center justify-center text-white text-[8px] font-bold">U</div>
+            <img src="https://coin-images.coingecko.com/coins/images/6319/large/usdc.png" alt="USDC" className="w-5 h-5 rounded-full object-cover" />
             <span className="text-text-primary text-sm font-medium">USDC</span>
           </div>
         </div>

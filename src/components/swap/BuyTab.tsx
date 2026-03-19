@@ -8,6 +8,7 @@ import PaymentMethodSelector from "./PaymentMethodSelector";
 import TokenSelector from "./TokenSelector";
 import { TOKENS, CURRENCIES, PAYMENT_METHODS } from "@/lib/constants";
 import { formatNumber } from "@/lib/utils";
+import Image from "next/image";
 
 interface Quote {
   amount: string;
@@ -15,6 +16,7 @@ interface Quote {
   provider: string;
   providerColor: string;
   providerLetter: string;
+  providerLogo?: string;
   best?: boolean;
 }
 
@@ -72,6 +74,7 @@ export default function BuyTab() {
         provider: providers[i].name,
         providerColor: providers[i].color,
         providerLetter: providers[i].letter,
+        providerLogo: "logo" in providers[i] ? (providers[i] as { logo: string }).logo : undefined,
         best: i === 0,
       };
     });
@@ -182,12 +185,14 @@ export default function BuyTab() {
                 <button
                   key={i}
                   onClick={() => setSelectedQuoteIdx(i)}
-                  className={`w-7 h-7 rounded-md flex items-center justify-center text-white text-[10px] font-bold transition-all ${
+                  className={`w-7 h-7 rounded-md flex items-center justify-center text-white text-[10px] font-bold transition-all overflow-hidden ${
                     selectedQuoteIdx === i ? "ring-2 ring-accent-purple" : ""
                   }`}
-                  style={{ backgroundColor: q.providerColor }}
+                  style={q.providerLogo ? undefined : { backgroundColor: q.providerColor }}
                 >
-                  {q.providerLetter}
+                  {q.providerLogo ? (
+                    <Image src={q.providerLogo} alt={q.provider} width={28} height={28} className="w-full h-full object-cover" unoptimized />
+                  ) : q.providerLetter}
                 </button>
               ))}
             </div>

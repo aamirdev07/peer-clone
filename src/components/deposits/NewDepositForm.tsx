@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { ChevronDown, ChevronUp, X, AlertCircle, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { CURRENCIES, PAYMENT_METHODS } from "@/lib/constants";
 import { formatNumber } from "@/lib/utils";
+import { useClickOutside } from "@/hooks/useClickOutside";
 import CountryFlag from "@/components/shared/CountryFlag";
+import Image from "next/image";
 
 interface NewDepositFormProps {
   onClose: () => void;
@@ -36,6 +38,11 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
   const [maxOrder, setMaxOrder] = useState("0");
   const [telegramUsername, setTelegramUsername] = useState("");
   const [retainOnEmpty, setRetainOnEmpty] = useState(true);
+
+  // Click-outside refs for dropdowns
+  const platformDropdownRef = useClickOutside<HTMLDivElement>(useCallback(() => setPlatformDropdownOpen(false), []), platformDropdownOpen);
+  const simplePlatformRef = useClickOutside<HTMLDivElement>(useCallback(() => setPlatformOpen(false), []), platformOpen);
+  const simpleCurrencyRef = useClickOutside<HTMLDivElement>(useCallback(() => setCurrencyOpen(false), []), currencyOpen);
 
   const selectedCurrency = CURRENCIES.find((c) => c.code === currency) || CURRENCIES[0];
   const availablePaymentMethods = useMemo(
@@ -118,7 +125,7 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
               {/* Platform section - advanced */}
               <div>
                 <div className="flex items-center justify-end mb-3">
-                  <div className="relative">
+                  <div className="relative" ref={platformDropdownRef}>
                     <button
                       onClick={() => setPlatformDropdownOpen(!platformDropdownOpen)}
                       className="flex items-center gap-1.5 bg-bg-surface-raised hover:bg-bg-surface-hover rounded-lg px-3 py-1.5 text-sm font-medium text-text-secondary transition-all"
@@ -136,9 +143,15 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
                             }}
                             className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-bg-surface-hover transition-colors text-text-primary"
                           >
-                            <div className="w-6 h-6 rounded flex items-center justify-center text-white text-[10px] font-bold shrink-0" style={{ backgroundColor: p.color }}>
-                              {p.letter}
-                            </div>
+                            {"logo" in p && p.logo ? (
+                              <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
+                                <Image src={p.logo} alt={p.name} width={24} height={24} className="w-full h-full object-cover" unoptimized />
+                              </div>
+                            ) : (
+                              <div className="w-6 h-6 rounded flex items-center justify-center text-white text-[10px] font-bold shrink-0" style={{ backgroundColor: p.color }}>
+                                {p.letter}
+                              </div>
+                            )}
                             <span className="font-medium">{p.name}</span>
                           </button>
                         ))}
@@ -153,9 +166,15 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
                   return (
                     <div key={ap.id} className="border border-border-subtle rounded-xl overflow-hidden mb-2">
                       <div className="flex items-center gap-3 p-3">
-                        <div className="w-8 h-8 rounded flex items-center justify-center text-white text-xs font-bold shrink-0" style={{ backgroundColor: platform.color }}>
-                          {platform.letter}
-                        </div>
+                        {"logo" in platform && platform.logo ? (
+                          <div className="w-8 h-8 rounded-full overflow-hidden shrink-0">
+                            <Image src={platform.logo} alt={platform.name} width={32} height={32} className="w-full h-full object-cover" unoptimized />
+                          </div>
+                        ) : (
+                          <div className="w-8 h-8 rounded flex items-center justify-center text-white text-xs font-bold shrink-0" style={{ backgroundColor: platform.color }}>
+                            {platform.letter}
+                          </div>
+                        )}
                         <span className="text-text-primary text-sm font-semibold">{platform.name}</span>
                         <span className="inline-flex items-center gap-1 bg-accent-amber/15 text-accent-amber text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide">
                           <AlertCircle className="w-3 h-3" /> Setup Required
@@ -286,15 +305,21 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
             <>
               {/* Simple mode: Platform + Currency */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="relative">
+                <div className="relative" ref={simplePlatformRef}>
                   <label className="text-text-secondary text-xs uppercase tracking-wider font-medium block mb-2">Platform</label>
                   <button
                     onClick={() => { setPlatformOpen(!platformOpen); setCurrencyOpen(false); }}
                     className="w-full flex items-center gap-2.5 bg-bg-input rounded-xl px-4 py-3 transition-all hover:bg-bg-surface-hover"
                   >
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0" style={{ backgroundColor: selectedPlatform.color }}>
-                      {selectedPlatform.letter}
-                    </div>
+                    {"logo" in selectedPlatform && selectedPlatform.logo ? (
+                      <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
+                        <Image src={selectedPlatform.logo} alt={selectedPlatform.name} width={24} height={24} className="w-full h-full object-cover" unoptimized />
+                      </div>
+                    ) : (
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0" style={{ backgroundColor: selectedPlatform.color }}>
+                        {selectedPlatform.letter}
+                      </div>
+                    )}
                     <span className="text-sm font-medium text-text-primary truncate">{selectedPlatform.name}</span>
                     <ChevronDown className="w-4 h-4 text-text-secondary ml-auto shrink-0" />
                   </button>
@@ -306,9 +331,15 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
                           onClick={() => { setPaymentMethod(p.id); setPlatformOpen(false); }}
                           className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-bg-surface-hover transition-colors ${p.id === paymentMethod ? "text-accent-purple" : "text-text-primary"}`}
                         >
-                          <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0" style={{ backgroundColor: p.color }}>
-                            {p.letter}
-                          </div>
+                          {"logo" in p && p.logo ? (
+                            <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
+                              <Image src={p.logo} alt={p.name} width={24} height={24} className="w-full h-full object-cover" unoptimized />
+                            </div>
+                          ) : (
+                            <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0" style={{ backgroundColor: p.color }}>
+                              {p.letter}
+                            </div>
+                          )}
                           <span className="font-medium">{p.name}</span>
                         </button>
                       ))}
@@ -316,7 +347,7 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
                   )}
                 </div>
 
-                <div className="relative">
+                <div className="relative" ref={simpleCurrencyRef}>
                   <label className="text-text-secondary text-xs uppercase tracking-wider font-medium block mb-2">Currency</label>
                   <button
                     onClick={() => { setCurrencyOpen(!currencyOpen); setPlatformOpen(false); }}

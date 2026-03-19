@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ChevronDown, Filter, RefreshCw, MoreHorizontal, LayoutList, Table2 } from "lucide-react";
 import { CURRENCIES, PAYMENT_METHODS } from "@/lib/constants";
 import CountryFlag from "@/components/shared/CountryFlag";
+import Image from "next/image";
 
 interface OrderBookFiltersProps {
   currency: string;
@@ -63,7 +64,7 @@ export default function OrderBookFilters({
 
       {/* Token badge */}
       <div className="flex items-center gap-1.5 bg-bg-surface-raised rounded-full px-3 py-1.5">
-        <div className="w-5 h-5 rounded-full bg-[#2775CA] flex items-center justify-center text-white text-[8px] font-bold">U</div>
+        <img src="https://coin-images.coingecko.com/coins/images/6319/large/usdc.png" alt="USDC" className="w-5 h-5 rounded-full object-cover" />
         <span className="text-sm font-medium text-text-primary">USDC</span>
       </div>
 
@@ -134,12 +135,15 @@ export default function OrderBookFilters({
                   p.id === platform ? "text-accent-purple" : "text-text-primary"
                 }`}
               >
-                <div
-                  className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-bold shrink-0"
-                  style={{ backgroundColor: p.color }}
-                >
-                  {p.letter}
-                </div>
+                {"logo" in p && p.logo ? (
+                  <div className="w-5 h-5 rounded-full overflow-hidden shrink-0">
+                    <Image src={p.logo} alt={p.name} width={20} height={20} className="w-full h-full object-cover" unoptimized />
+                  </div>
+                ) : (
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-bold shrink-0" style={{ backgroundColor: p.color }}>
+                    {p.letter}
+                  </div>
+                )}
                 <span className="font-medium">{p.name}</span>
               </button>
             ))}

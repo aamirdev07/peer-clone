@@ -74,9 +74,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             {/* USDC balance badge */}
             <div className="flex items-center gap-1.5 text-sm">
-              <div className="w-5 h-5 rounded-full bg-[#2775CA] flex items-center justify-center text-white text-[8px] font-bold shrink-0">
-                U
-              </div>
+              <img src="https://coin-images.coingecko.com/coins/images/6319/large/usdc.png" alt="USDC" className="w-5 h-5 rounded-full object-cover shrink-0" />
               <span className="text-text-primary font-medium tabular-nums">
                 {MOCK_USER.balance}
               </span>
