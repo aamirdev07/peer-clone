@@ -52,8 +52,8 @@ export default function OrderBookTable() {
     : null;
 
   return (
-    <div className="mt-10">
-      <h2 className="text-2xl font-bold text-text-primary uppercase mb-5">Liquidity</h2>
+    <div className="mt-6 sm:mt-10">
+      <h2 className="text-xl sm:text-2xl font-bold text-text-primary uppercase mb-4 sm:mb-5">Liquidity</h2>
 
       <OrderBookFilters
         currency={currency}
@@ -272,7 +272,7 @@ export default function OrderBookTable() {
       {selectedRow && (
         <div className="lg:hidden fixed inset-0 z-50 flex justify-end">
           <div className="absolute inset-0 bg-black/50" onClick={() => setSelectedRow(null)} />
-          <div className="relative w-full max-w-[400px] bg-bg-surface border-l border-border-subtle h-full overflow-y-auto p-6">
+          <div className="relative w-full max-w-[380px] bg-bg-surface border-l border-border-subtle h-full overflow-y-auto p-4 sm:p-6">
             <BuyPanel row={selectedRow} onClose={() => setSelectedRow(null)} />
           </div>
         </div>

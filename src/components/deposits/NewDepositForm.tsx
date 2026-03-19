@@ -76,8 +76,8 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
   return (
     <div className={advanced ? "max-w-[1100px] mx-auto" : "max-w-[520px] mx-auto"}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-text-primary uppercase">Sell USDC</h2>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-text-primary uppercase">Sell USDC</h2>
         <label className="flex items-center gap-2 cursor-pointer select-none">
           <span className="text-text-secondary text-sm font-medium">Advanced</span>
           <button
@@ -91,7 +91,7 @@ export default function NewDepositForm({ onClose }: NewDepositFormProps) {
 
       <div className={`${advanced ? "grid grid-cols-1 lg:grid-cols-2 gap-0 bg-bg-surface rounded-2xl overflow-hidden" : ""}`}>
         {/* Left / Main card */}
-        <div className={advanced ? "p-6 space-y-4" : "bg-bg-surface rounded-2xl p-6 space-y-4"}>
+        <div className={advanced ? "p-4 sm:p-6 space-y-4" : "bg-bg-surface rounded-2xl p-4 sm:p-6 space-y-4"}>
           {/* Amount */}
           <div className="bg-bg-input rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">

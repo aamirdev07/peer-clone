@@ -57,14 +57,14 @@ function SwapPageInner() {
   const HISTORY_TABS: HistoryFilter[] = ["ALL", "ACTIVE", "COMPLETED", "CANCELLED"];
 
   return (
-    <div className="flex justify-center px-4 mt-12 mb-12">
+    <div className="flex justify-center px-3 sm:px-4 mt-6 sm:mt-12 mb-6 sm:mb-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className={`w-full transition-all duration-300 ${isWide ? "max-w-[1050px]" : "max-w-[520px]"}`}
       >
-        <div className="bg-bg-surface rounded-2xl p-6">
+        <div className="bg-bg-surface rounded-2xl p-4 sm:p-6">
           {/* Sub-tabs */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-1">

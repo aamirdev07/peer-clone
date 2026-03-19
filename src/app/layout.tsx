@@ -38,7 +38,7 @@ export default function RootLayout({
         <TooltipProvider>
           <AnnouncementBanner />
           <Navbar />
-          <main>{children}</main>
+          <main className="pb-20 md:pb-0">{children}</main>
           <Toaster position="bottom-right" />
         </TooltipProvider>
       </body>

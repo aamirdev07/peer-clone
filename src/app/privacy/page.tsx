@@ -8,9 +8,9 @@ export default function PrivacyPolicyPage() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="max-w-[800px] mx-auto px-6 py-12"
+      className="max-w-[800px] mx-auto px-4 sm:px-6 py-8 sm:py-12"
     >
-      <h1 className="text-3xl font-bold text-text-primary">
+      <h1 className="text-2xl sm:text-3xl font-bold text-text-primary">
         Kosmyk Privacy Policy
       </h1>
       <p className="text-lg font-semibold text-text-primary mt-4">

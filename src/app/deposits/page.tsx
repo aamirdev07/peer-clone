@@ -39,17 +39,17 @@ export default function DepositsPage() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="max-w-[1200px] mx-auto px-6 py-8"
+      className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 sm:py-8"
     >
-      <h1 className="text-3xl font-bold tracking-tight text-text-primary uppercase">
+      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-text-primary uppercase">
         Deposits
       </h1>
-      <p className="text-text-secondary text-base mt-2">
+      <p className="text-text-secondary text-sm sm:text-base mt-2">
         Create and manage USDC liquidity deposits for fiat off-ramp orders.
       </p>
 
       {/* Tabs + New Deposit button */}
-      <div className="flex items-center justify-between mt-6 mb-6">
+      <div className="flex items-center justify-between mt-4 sm:mt-6 mb-4 sm:mb-6 gap-3">
         <div className="flex items-center gap-1">
           <button
             onClick={() => setTab("active")}

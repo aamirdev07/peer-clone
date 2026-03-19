@@ -21,7 +21,7 @@ export default function VolumeChart() {
         </h3>
         <p className="text-text-secondary text-sm">Kosmyk Totals</p>
       </div>
-      <div className="h-[280px]">
+      <div className="h-[200px] sm:h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={VOLUME_CHART_DATA}>
             <CartesianGrid

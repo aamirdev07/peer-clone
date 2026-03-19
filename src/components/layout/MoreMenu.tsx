@@ -8,13 +8,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function MoreMenu() {
+export default function MoreMenu({ variant }: { variant?: "bottom-bar" }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="w-10 h-10 rounded-full bg-bg-surface-raised text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover flex items-center justify-center transition-all duration-200 text-lg tracking-widest">
-          •••
-        </button>
+        {variant === "bottom-bar" ? (
+          <button className="flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors">
+            <span className="text-lg leading-none tracking-widest">•••</span>
+            <span className="text-[10px] font-medium">More</span>
+          </button>
+        ) : (
+          <button className="w-10 h-10 rounded-full bg-bg-surface-raised text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover flex items-center justify-center transition-all duration-200 text-lg tracking-widest">
+            •••
+          </button>
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"

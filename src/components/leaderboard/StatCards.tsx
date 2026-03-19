@@ -28,16 +28,16 @@ export default function StatCards() {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="bg-bg-surface rounded-xl p-5 border border-border-subtle"
+          className="bg-bg-surface rounded-xl p-3 sm:p-5 border border-border-subtle"
         >
-          <p className="text-text-secondary text-xs uppercase tracking-wider font-medium">
+          <p className="text-text-secondary text-[10px] sm:text-xs uppercase tracking-wider font-medium">
             {stat.label}
           </p>
-          <p className={`text-2xl font-bold mt-2 tabular-nums ${stat.color}`}>
+          <p className={`text-lg sm:text-2xl font-bold mt-1 sm:mt-2 tabular-nums ${stat.color}`}>
             {stat.value}
           </p>
         </div>

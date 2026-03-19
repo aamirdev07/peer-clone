@@ -10,9 +10,9 @@ export default function LeaderboardPage() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="max-w-[1200px] mx-auto px-6 py-8"
+      className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 sm:py-8"
     >
-      <h1 className="text-3xl font-bold tracking-tight text-text-primary uppercase mb-6">
+      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-text-primary uppercase mb-4 sm:mb-6">
         Leaderboard
       </h1>
 

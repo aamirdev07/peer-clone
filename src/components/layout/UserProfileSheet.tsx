@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 const MOCK_USER = {
-  email: "user@example.com",
+  email: "cryptodev@gmail.com",
   address: "0x6f3cdCB555e522f01e7c85f2A691aCE5723608De",
   shortAddress: "0x6f3c...08De",
   balance: 0.0,

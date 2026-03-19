@@ -66,7 +66,7 @@ export default function BuyPanel({ row, onClose }: BuyPanelProps) {
   }, [receiveAmount, row.price]);
 
   return (
-    <div className="w-[340px] shrink-0 space-y-4">
+    <div className="w-full lg:w-[340px] shrink-0 space-y-4">
       {/* Header */}
       <div className="text-center">
         <h3 className="text-text-primary text-xl font-bold">Buy USDC</h3>

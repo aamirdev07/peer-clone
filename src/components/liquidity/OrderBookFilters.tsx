@@ -58,8 +58,8 @@ export default function OrderBookFilters({
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-3 mb-4">
-      <span className="text-text-secondary text-sm font-medium uppercase tracking-wider">Amount</span>
+    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
+      <span className="hidden sm:inline text-text-secondary text-sm font-medium uppercase tracking-wider">Amount</span>
 
       {/* Token badge */}
       <div className="flex items-center gap-1.5 bg-bg-surface-raised rounded-full px-3 py-1.5">
@@ -252,7 +252,7 @@ export default function OrderBookFilters({
       {/* Add Liquidity */}
       <button
         onClick={() => router.push("/deposits")}
-        className="ml-auto bg-accent-purple hover:bg-accent-purple-hover text-white rounded-lg px-5 py-2 font-semibold text-sm transition-all duration-200"
+        className="ml-auto bg-accent-purple hover:bg-accent-purple-hover text-white rounded-lg px-3 sm:px-5 py-2 font-semibold text-xs sm:text-sm transition-all duration-200 whitespace-nowrap"
       >
         ADD LIQUIDITY
       </button>
