@@ -107,7 +107,7 @@ export default function OrderBookTable() {
                         <tr
                           key={i}
                           onClick={() => setSelectedRow(row)}
-                          className={`border-b border-border-subtle hover:bg-bg-surface-hover transition-colors cursor-pointer relative ${
+                          className={`border-b border-border-subtle hover:bg-bg-surface-hover transition-colors cursor-pointer select-none relative ${
                             selectedRow === row ? "bg-bg-surface-hover" : ""
                           }`}
                         >
@@ -191,7 +191,7 @@ export default function OrderBookTable() {
                       <tr
                         key={i}
                         onClick={() => setSelectedRow(row)}
-                        className={`border-b border-border-subtle hover:bg-bg-surface-hover transition-colors cursor-pointer ${
+                        className={`border-b border-border-subtle hover:bg-bg-surface-hover transition-colors cursor-pointer select-none ${
                           selectedRow === row ? "bg-bg-surface-hover" : ""
                         }`}
                       >
@@ -243,7 +243,7 @@ export default function OrderBookTable() {
           </div>
 
           {/* Market rate indicator */}
-          <div className="text-center py-3 text-text-secondary text-sm border-t border-border-subtle">
+          <div className="text-center py-3 text-text-secondary text-sm border-t border-border-subtle select-none">
             Market: {formatNumber(selectedCurrency.usdRate, 4)} {currency}
           </div>
         </div>

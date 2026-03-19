@@ -10,7 +10,7 @@ export default function AnnouncementBanner() {
   if (!visible) return null;
 
   return (
-    <div className="bg-accent-amber text-black text-center py-2 text-sm font-medium relative">
+    <div className="bg-accent-amber text-black text-center py-2 text-sm font-medium relative select-none">
       <span>
         ZKP2P is now Kosmyk.{" "}
         <button

@@ -118,7 +118,7 @@ export default function MakerDetailPanel({ maker }: MakerDetailPanelProps) {
             );
             if (!platform) return null;
             return (
-              <div key={ps.platformId} className="flex items-center gap-3">
+              <div key={ps.platformId} className="flex items-center gap-3 select-none">
                 <PlatformBadge platformId={ps.platformId} size="md" />
                 <div className="flex-1 min-w-0">
                   <span className="text-text-primary text-sm font-semibold">

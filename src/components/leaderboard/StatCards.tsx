@@ -32,7 +32,7 @@ export default function StatCards() {
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="bg-bg-surface rounded-xl p-3 sm:p-5 border border-border-subtle"
+          className="bg-bg-surface rounded-xl p-3 sm:p-5 border border-border-subtle select-none"
         >
           <p className="text-text-secondary text-[10px] sm:text-xs uppercase tracking-wider font-medium">
             {stat.label}

@@ -126,19 +126,19 @@ export default function BuyPanel({ row, onClose }: BuyPanelProps) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between select-none">
           <span className="text-text-secondary text-sm">Price</span>
           <span className="text-text-primary text-sm font-medium tabular-nums">
             {formatNumber(row.price, 4)} {currency.code}/USDC
           </span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between select-none">
           <span className="text-text-secondary text-sm">Available</span>
           <span className="text-text-primary text-sm font-medium tabular-nums">
             {formatNumber(selectedProviderData?.available || row.amount, 2)} USDC
           </span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between select-none">
           <span className="text-text-secondary text-sm">Limits</span>
           <span className="text-text-primary text-sm font-medium tabular-nums">
             {formatNumber(minOrder, 2)} - {formatNumber(maxOrder, 2)} USDC

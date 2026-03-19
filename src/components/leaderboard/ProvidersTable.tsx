@@ -144,7 +144,7 @@ export default function ProvidersTable() {
                 <tr
                   key={row.address}
                   onClick={() => setSelectedMaker(row)}
-                  className={`border-b border-border-subtle hover:bg-bg-surface-hover transition-colors cursor-pointer ${
+                  className={`border-b border-border-subtle hover:bg-bg-surface-hover transition-colors cursor-pointer select-none ${
                     selectedMaker?.address === row.address ? "bg-bg-surface-hover" : ""
                   }`}
                 >
