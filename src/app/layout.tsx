@@ -36,7 +36,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased min-h-screen">
         <TooltipProvider>
-          <AnnouncementBanner />
+          {/* <AnnouncementBanner /> */}
           <Navbar />
           <main className="pb-20 md:pb-0">{children}</main>
           <Toaster position="bottom-right" />
